@@ -12,7 +12,7 @@ import json
 
 PORT = 8080
 DIRECTORY = os.path.dirname(os.path.abspath(__file__))
-BACKEND_URL = "http://localhost:8000"
+BACKEND_URL = "http://127.0.0.1:8000"
 
 
 class ProxyHandler(http.server.BaseHTTPRequestHandler):

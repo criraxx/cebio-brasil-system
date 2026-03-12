@@ -17,8 +17,12 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY cebio_api/ ./cebio_api/
 COPY cebio_frontend_serve/ ./cebio_frontend_serve/
 
-# Expor portas
-EXPOSE 8000 8080
+# Copiar script de inicialização
+COPY start.sh .
+RUN chmod +x start.sh
+
+# Expor porta
+EXPOSE 8080
 
 # Comando para iniciar ambos os servidores
-CMD sh -c "cd /app/cebio_api && uvicorn app.main:app --host 0.0.0.0 --port 8000 & cd /app/cebio_frontend_serve && python serve.py"
+CMD ["/bin/bash", "./start.sh"]
