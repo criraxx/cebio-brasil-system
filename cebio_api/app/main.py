@@ -234,3 +234,16 @@ def root():
         "docs": "/docs",
         "status": "online",
     }
+
+
+# ─── Health Check para UptimeRobot ────────────────────────────────────────────
+@app.get("/health", tags=["Health"])
+def health_check():
+    """Endpoint simples de health check para monitoramento."""
+    return {"status": "ok", "service": "cebio-brasil"}
+
+
+@app.head("/health", tags=["Health"])
+def health_check_head():
+    """HEAD request para health check."""
+    return {}
