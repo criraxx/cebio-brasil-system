@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meus Projetos - Pesquisador - CEBIO Brasil</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="top-header">
+    <div class="top-header-left">
+      <div class="logo-if"><span class="r"></span><span class="g"></span><span class="g"></span><span class="g"></span><span class="g"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span></div>
+      <span class="logo-x">x</span>
+      <svg viewBox="0 0 40 40" width="28" height="28"><polygon points="20,2 35,10 35,26 20,34 5,26 5,10" fill="none" stroke="#4dd0e1" stroke-width="1.8"/><circle cx="20" cy="14" r="2.5" fill="#4dd0e1"/><circle cx="14" cy="22" r="2.5" fill="#4dd0e1"/><circle cx="26" cy="22" r="2.5" fill="#4dd0e1"/><line x1="20" y1="14" x2="14" y2="22" stroke="#4dd0e1" stroke-width="1.2"/><line x1="20" y1="14" x2="26" y2="22" stroke="#4dd0e1" stroke-width="1.2"/><line x1="14" y1="22" x2="26" y2="22" stroke="#4dd0e1" stroke-width="1.2"/></svg>
+      <div class="brand-text"><h1>CEBIO Brasil</h1><p>Centro de Excelência em Bioinsumos</p></div>
+    </div>
+    <div class="top-header-center"><div class="search-box"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="rgba(255,255,255,0.7)" stroke-width="2" fill="none"/></svg><input type="text" placeholder="Buscar projetos..."></div></div>
+    <div class="top-header-right"><span class="user-name" id="header-user-name">Carregando...</span><span class="user-badge-type badge-pesquisador">Pesquisador</span></div>
+  </header>
+
+  <!-- SUB-HEADER -->
+  <div class="sub-header">
+    <div class="sub-header-left">
+      <span class="page-name">Meus Projetos</span>
+      <nav class="nav-tabs">
+        <a href="pesquisador-dashboard.html" class="nav-tab">Dashboard</a>
+        <a href="pesquisador-projetos.html" class="nav-tab active">Meus Projetos</a>
+        <a href="pesquisador-submissao.html" class="nav-tab">Nova Submissão</a>
+        <a href="pesquisador-historico.html" class="nav-tab">Histórico</a>
+      </nav>
+    </div>
+    <div class="sub-header-right">
+      <div class="notif-bell"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span class="notif-badge">1</span></div>
+      <div class="user-info">
+        <div class="user-avatar" id="user-avatar">--</div>
+        <div class="user-details"><div class="uname" id="sidebar-user-name">Carregando...</div><div class="uinst" id="sidebar-user-inst">CEBIO Brasil</div></div>
+      </div>
+      <div class="logout-btn" data-href="login.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <div class="main-container">
+    <div class="card">
+      <div class="card-head">
+        <h3>Meus Projetos</h3>
+        <span id="projects-count" style="font-size:13px;color:#757575;">Carregando...</span>
+      </div>
+      <div id="projects-container">
+        <p style="color:#888;text-align:center;padding:40px;">Carregando projetos...</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="utils/sanitize.js"></script>
+  <script src="utils/xss-fixes.js"></script>
+  <script src="api.js"></script>
+  <script src="components/toast.js"></script>
+  <script src="components/loading.js"></script>
+  <script src="components/password-modal.js"></script>
+  <script src="script.js"></script>
+  
+  <script>
+    async function loadProjects() {
+      showLoading();
+      try {
+        // Carregar apenas projetos do usuário logado
+        const data = await api.get('/projects?per_page=100&owner_id=' + Session.user.id);
+        renderProjects(data.items || []);
+        document.getElementById('projects-count').textContent = `${data.total || 0} projeto(s)`;
+      } catch (error) {
+        console.error('Erro ao carregar projetos:', error);
+        document.getElementById('projects-container').innerHTML = 
+          '<p style="color:#f44336;text-align:center;padding:40px;">Erro ao carregar projetos</p>';
+      } finally {
+        hideLoading();
+      }
+    }
+
+    function renderProjects(projects) {
+      const container = document.getElementById('projects-container');
+      
+      if (projects.length === 0) {
+        container.innerHTML = `
+          <div style="text-align:center;padding:60px 20px;">
+            <svg viewBox="0 0 24 24" width="64" height="64" fill="none" stroke="#4dd0e1" stroke-width="1.5" style="margin-bottom:16px;">
+              <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+            </svg>
+            <h3 style="color:#fff;margin-bottom:8px;">Nenhum projeto encontrado</h3>
+            <p style="color:#888;margin-bottom:24px;">Você ainda não criou nenhum projeto</p>
+            <a href="pesquisador-submissao.html" class="btn btn-green">
+              + Criar Primeiro Projeto
+            </a>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = projects.map(project => `
+        <div class="project-item" onclick="window.location.href='projeto-detalhes.html?id=${project.id}'" style="cursor:pointer;">
+          <div class="project-item-head">
+            <h4>${project.title}</h4>
+            ${badgeStatus(project.status)}
+          </div>
+          <p>${project.summary ? (project.summary.substring(0, 200) + (project.summary.length > 200 ? '...' : '')) : 'Sem resumo'}</p>
+          <div class="project-meta">
+            <span>${project.category || '0'}</span>
+            <span>•</span>
+            <span>${project.owner_name || '0'}</span>
+            <span>•</span>
+            <span>${fmtDateOnly(project.created_at)}</span>
+            ${project.comments_count > 0 ? `<span>•</span><span>💬 ${project.comments_count}</span>` : ''}
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Carregar ao iniciar
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!Session.requireAuth()) return;
+      loadProjects();
+    });
+  </script>
+</body>
+</html>

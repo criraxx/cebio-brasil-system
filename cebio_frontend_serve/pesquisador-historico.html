@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Histórico - Pesquisador - CEBIO Brasil</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="top-header">
+    <div class="top-header-left">
+      <div class="logo-if"><span class="r"></span><span class="g"></span><span class="g"></span><span class="g"></span><span class="g"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span></div>
+      <span class="logo-x">x</span>
+      <svg viewBox="0 0 40 40" width="28" height="28"><polygon points="20,2 35,10 35,26 20,34 5,26 5,10" fill="none" stroke="#4dd0e1" stroke-width="1.8"/><circle cx="20" cy="14" r="2.5" fill="#4dd0e1"/><circle cx="14" cy="22" r="2.5" fill="#4dd0e1"/><circle cx="26" cy="22" r="2.5" fill="#4dd0e1"/><line x1="20" y1="14" x2="14" y2="22" stroke="#4dd0e1" stroke-width="1.2"/><line x1="20" y1="14" x2="26" y2="22" stroke="#4dd0e1" stroke-width="1.2"/><line x1="14" y1="22" x2="26" y2="22" stroke="#4dd0e1" stroke-width="1.2"/></svg>
+      <div class="brand-text"><h1>CEBIO Brasil</h1><p>Centro de Excelência em Bioinsumos</p></div>
+    </div>
+    <div class="top-header-center"><div class="search-box"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="rgba(255,255,255,0.7)" stroke-width="2" fill="none"/></svg><input type="text" placeholder="Buscar projetos..."></div></div>
+    <div class="top-header-right"><span class="user-name" id="header-user-name">Carregando...</span><span class="user-badge-type badge-pesquisador">Pesquisador</span></div>
+  </header>
+
+  <!-- SUB-HEADER -->
+  <div class="sub-header">
+    <div class="sub-header-left">
+      <span class="page-name">Histórico de Atividades</span>
+      <nav class="nav-tabs">
+        <a href="pesquisador-dashboard.html" class="nav-tab">Dashboard</a>
+        <a href="pesquisador-projetos.html" class="nav-tab">Meus Projetos</a>
+        <a href="pesquisador-submissao.html" class="nav-tab">Nova Submissão</a>
+        <a href="pesquisador-historico.html" class="nav-tab active">Histórico</a>
+      </nav>
+    </div>
+    <div class="sub-header-right">
+      <div class="notif-bell"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg><span class="notif-badge">1</span></div>
+      <div class="user-info">
+        <div class="user-avatar" id="user-avatar">--</div>
+        <div class="user-details"><div class="uname" id="sidebar-user-name">Carregando...</div><div class="uinst" id="sidebar-user-inst">CEBIO Brasil</div></div>
+      </div>
+      <div class="logout-btn" data-href="login.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <div class="main-container">
+    <!-- BANNER -->
+    <div class="green-banner">
+      <h2>Histórico de Atividades</h2>
+      <p class="banner-sub">Acompanhe todas as suas atividades e interações no sistema CEBIO</p>
+      <div class="banner-badges">
+        <span class="banner-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg> Registro Completo</span>
+        <span class="banner-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg> Atualizações em Tempo Real</span>
+        <span class="banner-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg> Exportação de Dados</span>
+      </div>
+    </div>
+
+    <!-- STAT CARDS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div><div class="stat-label">Total de Atividades</div><div class="stat-number" id="stat-n-1">0</div></div>
+        <div class="stat-icon blue"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><circle cx="12" cy="12" r="10" fill="none" stroke="currentColor" stroke-width="2"/></svg></div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Submissões</div><div class="stat-number" id="stat-n-2">0</div></div>
+        <div class="stat-icon green"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M14 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V8l-6-6z"/></svg></div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Revisões</div><div class="stat-number" id="stat-n-3">0</div></div>
+        <div class="stat-icon yellow"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Este Mês</div><div class="stat-number" id="stat-n-4">0</div></div>
+        <div class="stat-icon purple"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M19 3h-1V1h-2v2H8V1H6v2H5c-1.11 0-2 .9-2 2v14c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V8h14v11z"/></svg></div>
+      </div>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="filters-card">
+      <div class="filters-row">
+        <div class="filter-group">
+          <label>Buscar</label>
+          <input type="text" placeholder="Buscar atividades...">
+        </div>
+        <div class="filter-group">
+          <label>Tipo</label>
+          <select><option>Todos</option><option>Submissão</option><option>Revisão</option><option>Aprovação</option><option>Rejeição</option></select>
+        </div>
+        <div class="filter-group">
+          <label>Período</label>
+          <select><option>Todos</option><option>Hoje</option><option>Esta semana</option><option>Este mês</option><option>Este ano</option></select>
+        </div>
+        <button class="btn-filter">Limpar</button>
+      </div>
+    </div>
+
+    <!-- TIMELINE -->
+    <div class="card">
+      <div class="card-head"><h3>Timeline de Atividades</h3><span style="font-size:12px;color:#9e9e9e;">5 atividade(s)</span></div>
+
+      <div class="timeline">
+        <div class="timeline-item">
+          <div class="timeline-dot green"></div>
+          <div class="timeline-content">
+            <div class="timeline-head">
+              <span class="badge badge-green">Aprovação</span>
+              <span class="timeline-date">15/01/2024 11:20:00</span>
+            </div>
+            <h4>Projeto Aprovado</h4>
+            <p>Projeto "<span class="dyn-project-title">0</span>" foi aprovado pelo administrador</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot blue"></div>
+          <div class="timeline-content">
+            <div class="timeline-head">
+              <span class="badge badge-blue">Revisão</span>
+              <span class="timeline-date">15/01/2024 07:30:00</span>
+            </div>
+            <h4>Projeto Atualizado</h4>
+            <p>Resumo do projeto atualizado – versão 3 criada</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot gray"></div>
+          <div class="timeline-content">
+            <div class="timeline-head">
+              <span class="badge badge-gray">Upload</span>
+              <span class="timeline-date">10/01/2024 13:45:00</span>
+            </div>
+            <h4>Arquivos Enviados</h4>
+            <p>Upload de 3 fotos de espécies endêmicas (total: 2.5MB)</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot blue"></div>
+          <div class="timeline-content">
+            <div class="timeline-head">
+              <span class="badge badge-blue">Revisão</span>
+              <span class="timeline-date">05/01/2024 10:00:00</span>
+            </div>
+            <h4>Projeto em Revisão</h4>
+            <p>Projeto submetido para revisão administrativa</p>
+          </div>
+        </div>
+
+        <div class="timeline-item">
+          <div class="timeline-dot green"></div>
+          <div class="timeline-content">
+            <div class="timeline-head">
+              <span class="badge badge-green">Submissão</span>
+              <span class="timeline-date">01/01/2024 06:00:00</span>
+            </div>
+            <h4>Projeto Criado</h4>
+            <p>Novo projeto criado: "<span class="dyn-project-title">0</span>"</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="utils/sanitize.js"></script>
+  <script src="utils/xss-fixes.js"></script>
+  <script src="api.js"></script>
+  <script src="components/toast.js"></script>
+  <script src="components/loading.js"></script>
+  <script src="components/password-modal.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

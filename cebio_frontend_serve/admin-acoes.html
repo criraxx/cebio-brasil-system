@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ações Admin - CEBIO Brasil</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="top-header">
+    <div class="top-header-left">
+      <div class="logo-if"><span class="r"></span><span class="g"></span><span class="g"></span><span class="g"></span><span class="g"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span></div>
+      <span class="logo-x">x</span>
+      <svg viewBox="0 0 40 40" width="28" height="28"><polygon points="20,2 35,10 35,26 20,34 5,26 5,10" fill="none" stroke="#4dd0e1" stroke-width="1.8"/><circle cx="20" cy="14" r="2.5" fill="#4dd0e1"/><circle cx="14" cy="22" r="2.5" fill="#4dd0e1"/><circle cx="26" cy="22" r="2.5" fill="#4dd0e1"/><line x1="20" y1="14" x2="14" y2="22" stroke="#4dd0e1" stroke-width="1.2"/><line x1="20" y1="14" x2="26" y2="22" stroke="#4dd0e1" stroke-width="1.2"/><line x1="14" y1="22" x2="26" y2="22" stroke="#4dd0e1" stroke-width="1.2"/></svg>
+      <div class="brand-text"><h1>CEBIO Brasil</h1><p>Centro de Excelência em Bioinsumos</p></div>
+    </div>
+    <div class="top-header-center"><div class="search-box"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="rgba(255,255,255,0.7)" stroke-width="2" fill="none"/></svg><input type="text" placeholder="Buscar projetos..."></div></div>
+    <div class="top-header-right"><span class="user-name" id="header-user-name">Carregando...</span><span class="user-badge-type badge-admin">Admin</span></div>
+  </header>
+
+  <!-- SUB-HEADER -->
+  <div class="sub-header">
+    <div class="sub-header-left">
+      <nav class="nav-tabs">
+        <a href="admin-dashboard.html" class="nav-tab">Dashboard</a>
+        <a href="admin-projetos.html" class="nav-tab">Projetos</a>
+        <a href="admin-usuarios.html" class="nav-tab">Usuários</a>
+        <a href="admin-acoes.html" class="nav-tab active">Ações Admin</a>
+        <a href="admin-relatorios.html" class="nav-tab">Relatórios</a>
+        <a href="admin-auditoria.html" class="nav-tab">Auditoria</a>
+      </nav>
+    </div>
+    <div class="sub-header-right">
+      <div class="notif-bell"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+      <div class="user-info">
+        <div class="user-avatar" id="user-avatar">--</div>
+        <div class="user-details"><div class="uname" id="sidebar-user-name">Carregando...</div><div class="uinst" id="sidebar-user-inst">CEBIO Brasil</div></div>
+      </div>
+      <div class="logout-btn" data-href="login.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <div class="main-container">
+    <!-- BANNER -->
+    <div class="green-banner">
+      <h2>Central de Ações Administrativas</h2>
+      <p class="banner-sub">Controle avançado e operações em lote para gestão eficiente do CEBIO</p>
+      <div class="banner-badges">
+        <span class="banner-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Operações Seguras</span>
+        <span class="banner-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg> Auditoria Automática</span>
+        <span class="banner-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg> Backup Integrado</span>
+      </div>
+      <div class="banner-right-icon">
+        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="rgba(255,255,255,0.5)" stroke-width="1.5"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>
+        <span>Sistema Ativo</span>
+        <span>Último backup: <span id="last-backup-date">0</span></span>
+      </div>
+    </div>
+
+    <!-- STAT CARDS -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div><div class="stat-label">Projetos Pendentes</div><div class="stat-number" id="stat-n-1">0</div><div class="stat-sub red">Aguardando revisão</div></div>
+        <div class="stat-icon yellow"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Usuários Inativos</div><div class="stat-number" id="stat-n-2">0</div><div class="stat-sub red">Requerem atenção</div></div>
+        <div class="stat-icon purple"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Senhas Temporárias</div><div class="stat-number" id="stat-temp-passwords">0</div><div class="stat-sub red">Precisam redefinir</div></div>
+        <div class="stat-icon red"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Status do Sistema</div><div class="stat-text-big">Operacional</div><div class="stat-sub green">Todos os serviços ativos</div></div>
+        <div class="stat-icon green"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+      </div>
+    </div>
+
+    <!-- ACTION CARDS GRID -->
+    <div class="action-cards-grid">
+      <!-- Aprovação em Lote -->
+      <div class="action-card" data-href="admin-aprovacao-lote.html">
+        <div class="action-card-icon green-bg"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+        <h4>Aprovação em Lote</h4>
+        <p>Aprovar múltiplos projetos simultaneamente</p>
+        <div class="action-card-footer"><span class="action-card-tag">Projects</span><button class="action-card-btn" onclick="window.location.href='admin-aprovacao-lote.html'">Executar</button></div>
+      </div>
+      <!-- Rejeição em Lote -->
+      <div class="action-card">
+        <div class="action-card-icon red-bg"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 2C6.47 2 2 6.47 2 12s4.47 10 10 10 10-4.47 10-10S17.53 2 12 2zm5 13.59L15.59 17 12 13.41 8.41 17 7 15.59 10.59 12 7 8.41 8.41 7 12 10.59 15.59 7 17 8.41 13.41 12 17 15.59z"/></svg></div>
+        <h4>Rejeição em Lote</h4>
+        <p>Rejeitar múltiplos projetos com comentários</p>
+        <div class="action-card-footer"><span class="action-card-tag">Projects</span><button class="action-card-btn">Executar</button></div>
+      </div>
+      <!-- Ativação de Usuários -->
+      <div class="action-card">
+        <div class="action-card-icon pink-bg"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M15 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm-9-2V7H4v3H1v2h3v3h2v-3h3v-2H6zm9 4c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg></div>
+        <h4>Ativação de Usuários</h4>
+        <p>Ativar múltiplos usuários inativos</p>
+        <div class="action-card-footer"><span class="action-card-tag">Users</span><button class="action-card-btn">Executar</button></div>
+      </div>
+      <!-- Reset de Senhas em Lote -->
+      <div class="action-card" data-href="admin-reset-lote.html">
+        <div class="action-card-badge" id="badge-temp-passwords" style="display:none">0</div>
+        <div class="action-card-icon orange-bg"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M18 8h-1V6c0-2.76-2.24-5-5-5S7 3.24 7 6v2H6c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V10c0-1.1-.9-2-2-2zm-6 9c-1.1 0-2-.9-2-2s.9-2 2-2 2 .9 2 2-.9 2-2 2zm3.1-9H8.9V6c0-1.71 1.39-3.1 3.1-3.1 1.71 0 3.1 1.39 3.1 3.1v2z"/></svg></div>
+        <h4>Reset de Senhas em Lote</h4>
+        <p>Redefinir senhas para usuários selecionados</p>
+        <div class="action-card-footer"><span class="action-card-tag">Users</span><button class="action-card-btn" onclick="window.location.href='admin-reset-lote.html'">Executar</button></div>
+      </div>
+      <!-- Backup do Sistema -->
+      <div class="action-card">
+        <div class="action-card-icon teal-bg"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/></svg></div>
+        <h4>Backup do Sistema</h4>
+        <p>Criar backup completo de dados e arquivos</p>
+        <div class="action-card-footer"><span class="action-card-tag">System</span><button class="action-card-btn">Executar</button></div>
+      </div>
+      <!-- Modo Manutenção -->
+      <div class="action-card" data-href="admin-manutencao.html">
+        <div class="action-card-icon purple-bg"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg></div>
+        <h4>Modo Manutenção</h4>
+        <p>Ativar/desativar modo de manutenção</p>
+        <div class="action-card-footer"><span class="action-card-tag">System</span><button class="action-card-btn" onclick="window.location.href='admin-manutencao.html'">Executar</button></div>
+      </div>
+      <!-- Exportação Completa -->
+      <div class="action-card">
+        <div class="action-card-badge" id="badge-exports" style="display:none">0</div>
+        <div class="action-card-icon blue-bg"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg></div>
+        <h4>Exportação Completa</h4>
+        <p>Exportar todos os dados do sistema</p>
+        <div class="action-card-footer"><span class="action-card-tag">Data</span><button class="action-card-btn">Executar</button></div>
+      </div>
+      <!-- Notificações em Massa -->
+      <div class="action-card" data-href="admin-notificacao-massa.html">
+        <div class="action-card-badge">3</div>
+        <div class="action-card-icon yellow-bg"><svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor"><path d="M12 22c1.1 0 2-.9 2-2h-4c0 1.1.89 2 2 2zm6-6v-5c0-3.07-1.64-5.64-4.5-6.32V4c0-.83-.67-1.5-1.5-1.5s-1.5.67-1.5 1.5v.68C7.63 5.36 6 7.92 6 11v5l-2 2v1h16v-1l-2-2z"/></svg></div>
+        <h4>Notificações em Massa</h4>
+        <p>Enviar notificações para grupos de usuários</p>
+        <div class="action-card-footer"><span class="action-card-tag">Communication</span><button class="action-card-btn" onclick="window.location.href='admin-notificacao-massa.html'">Executar</button></div>
+      </div>
+    </div>
+
+    <!-- AÇÕES ADMINISTRATIVAS RECENTES -->
+    <div class="card">
+      <div class="card-head"><h3>Ações Administrativas Recentes</h3></div>
+      <p style="font-size:13px;color:var(--text-secondary);margin-bottom:16px;">Histórico das últimas operações realizadas</p>
+      <div class="recent-action-item bg-green">
+        <div class="recent-action-icon" style="background:var(--green-main)"><svg viewBox="0 0 24 24" width="20" height="20" fill="#fff"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+        <div class="recent-action-text"><h4>Backup do Sistema Concluído</h4><p>Backup completo realizado com sucesso • 14/01/2024, 23:00:00</p></div>
+      </div>
+      <div class="recent-action-item bg-blue">
+        <div class="recent-action-icon" style="background:var(--blue-icon)"><svg viewBox="0 0 24 24" width="20" height="20" fill="#fff"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg></div>
+        <div class="recent-action-text"><h4>Usuários Ativados em Lote</h4><p>3 usuários foram ativados simultaneamente • Hoje às 14:30</p></div>
+      </div>
+      <div class="recent-action-item bg-yellow">
+        <div class="recent-action-icon" style="background:var(--yellow-icon)"><svg viewBox="0 0 24 24" width="20" height="20" fill="#fff"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg></div>
+        <div class="recent-action-text"><h4>Projetos Rejeitados</h4><p>2 projetos foram rejeitados com comentários detalhados • Hoje às 10:15</p></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="utils/sanitize.js"></script>
+  <script src="utils/xss-fixes.js"></script>
+  <script src="api.js"></script>
+  <script src="components/toast.js"></script>
+  <script src="components/loading.js"></script>
+  <script src="components/password-modal.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

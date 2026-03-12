@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: cebio-brasil
+    env: docker
+    plan: free
+    region: oregon
+    dockerfilePath: ./Dockerfile
+    envVars:
+      - key: PYTHONUNBUFFERED
+        value: "1"
+      - key: ENV
+        value: "production"
+      - key: SECRET_KEY
+        generateValue: true
+    healthCheckPath: /api/health
+    healthCheckInterval: 300

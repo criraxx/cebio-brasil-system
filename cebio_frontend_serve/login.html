@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login - CEBIO Brasil</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body.login-body {
+      background: #e8f4fd;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    .login-card {
+      background: #fff;
+      border-radius: 16px;
+      padding: 48px 40px;
+      width: 100%;
+      max-width: 420px;
+      box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+    }
+    .login-logos {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .login-if-logo {
+      display: grid;
+      grid-template-columns: repeat(3, 16px);
+      grid-template-rows: repeat(3, 16px);
+      gap: 3px;
+    }
+    .login-if-logo span { border-radius: 2px; }
+    .login-if-logo .r { background: #e53935; }
+    .login-if-logo .g { background: #43a047; }
+    .login-if-logo .dg { background: #2e7d32; }
+    .login-x { font-size: 18px; font-weight: 700; color: #333; }
+    .login-cebio-logo svg { width: 52px; height: 52px; }
+    .login-title {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .login-title h2 {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1b7a3a;
+      margin-bottom: 4px;
+    }
+    .login-title p {
+      font-size: 14px;
+      color: #666;
+    }
+    .login-field {
+      margin-bottom: 20px;
+    }
+    .login-field label {
+      display: block;
+      font-size: 14px;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+    }
+    .login-input-wrap {
+      position: relative;
+    }
+    .login-input-wrap input {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 14px;
+      font-family: inherit;
+      color: #333;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+    .login-input-wrap input:focus {
+      border-color: #2e7d32;
+      box-shadow: 0 0 0 3px rgba(46,125,50,0.1);
+    }
+    .login-input-wrap input::placeholder { color: #aaa; }
+    .toggle-pass {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+      color: #999;
+      display: flex;
+      align-items: center;
+      background: none;
+      border: none;
+      padding: 4px;
+    }
+    .login-btn {
+      width: 100%;
+      padding: 14px;
+      background: #1a9a4a;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      font-family: inherit;
+      transition: background 0.2s;
+      margin-top: 4px;
+    }
+    .login-btn:hover { background: #15803d; }
+    .login-forgot {
+      text-align: center;
+      margin-top: 20px;
+    }
+    .login-forgot a {
+      color: #1a9a4a;
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .login-forgot a:hover { text-decoration: underline; }
+    @media (max-width: 480px) {
+      .login-card { margin: 16px; padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body class="login-body">
+  <div class="login-card">
+    <div class="login-logos">
+      <div class="login-if-logo">
+        <span class="r"></span><span class="g"></span><span class="g"></span>
+        <span class="g"></span><span class="g"></span><span class="dg"></span>
+        <span class="dg"></span><span class="dg"></span><span class="dg"></span>
+      </div>
+      <span class="login-x">X</span>
+      <div class="login-cebio-logo">
+        <svg viewBox="0 0 60 60" xmlns="http://www.w3.org/2000/svg">
+          <polygon points="30,2 52,15 52,41 30,54 8,41 8,15" fill="none" stroke="#00897b" stroke-width="2.5"/>
+          <polygon points="30,8 47,18 47,38 30,48 13,38 13,18" fill="none" stroke="#00897b" stroke-width="1.5"/>
+          <circle cx="30" cy="20" r="3" fill="#00897b"/>
+          <circle cx="22" cy="32" r="3" fill="#00897b"/>
+          <circle cx="38" cy="32" r="3" fill="#00897b"/>
+          <line x1="30" y1="20" x2="22" y2="32" stroke="#00897b" stroke-width="1.5"/>
+          <line x1="30" y1="20" x2="38" y2="32" stroke="#00897b" stroke-width="1.5"/>
+          <line x1="22" y1="32" x2="38" y2="32" stroke="#00897b" stroke-width="1.5"/>
+        </svg>
+      </div>
+    </div>
+    <div class="login-title">
+      <h2>Centro de Excelência em Bioinsumos</h2>
+      <p>Sistema de Gestão de Projetos Acadêmicos</p>
+    </div>
+    <form id="loginForm">
+      <div class="login-field">
+        <label>Usuário</label>
+        <div class="login-input-wrap">
+          <input type="email" id="loginUser" placeholder="seu@email.com" required>
+        </div>
+      </div>
+      <div class="login-field">
+        <label>Senha</label>
+        <div class="login-input-wrap">
+          <input type="password" id="loginPass" placeholder="Sua senha" required>
+          <button type="button" id="togglePass" class="toggle-pass">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#999" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </button>
+        </div>
+      </div>
+      <button type="submit" class="login-btn">Entrar no Sistema</button>
+    </form>
+    <div class="login-forgot">
+      <a href="#">Esqueceu sua senha?</a>
+    </div>
+  </div>
+  <script src="utils/sanitize.js"></script>
+  <script src="utils/xss-fixes.js"></script>
+  <script src="api.js"></script>
+  <script src="components/toast.js"></script>
+  <script src="components/loading.js"></script>
+  <script src="components/password-modal.js"></script>
+  <script src="script.js"></script>
+  <script>
+    // Verificar se precisa trocar senha após login
+    if (typeof initLogin === 'function') {
+      initLogin();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,593 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalhes do Usuário - CEBIO Brasil</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+        .info-card {
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 16px;
+        }
+        .info-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 4px;
+        }
+        .info-value {
+            font-size: 16px;
+            color: #fff;
+            font-weight: 600;
+        }
+        .action-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 12px;
+            margin-top: 16px;
+        }
+        .action-btn {
+            padding: 12px;
+            border: 1px solid #333;
+            background: #1a1a1a;
+            color: #fff;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: left;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .action-btn:hover {
+            background: #2a2a2a;
+            border-color: #4dd0e1;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #4dd0e1;
+            margin: 32px 0 16px 0;
+            padding-bottom: 8px;
+            border-bottom: 2px solid #333;
+        }
+        .stat-card {
+            background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            text-align: center;
+        }
+        .stat-value {
+            font-size: 32px;
+            font-weight: 700;
+            color: #4dd0e1;
+            margin-bottom: 8px;
+        }
+        .stat-label {
+            font-size: 14px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>CEBIO Brasil</h2>
+                <p class="user-role">Administrador</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html">📊 Dashboard</a>
+                <a href="admin-usuarios.html">👥 Usuários</a>
+                <a href="admin-usuarios-gerenciar.html" class="active">🔧 Gerenciar Usuários</a>
+                <a href="admin-projetos.html">📁 Projetos</a>
+                <a href="admin-notificacoes.html">🔔 Notificações</a>
+                <a href="admin-auditoria.html">📋 Auditoria</a>
+                <a href="admin-relatorios.html">📈 Relatórios</a>
+                <a href="admin-acoes.html">⚙️ Configurações</a>
+                <a href="#" onclick="Auth.logout()" style="margin-top:auto">🚪 Sair</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="content-header">
+                <div>
+                    <button onclick="window.history.back()" class="btn-sm btn-dark" style="margin-bottom: 12px;">
+                        ← Voltar
+                    </button>
+                    <h1 id="user-name-title">Carregando...</h1>
+                    <p id="user-email-subtitle"></p>
+                </div>
+                <div class="header-actions">
+                    <span class="user-name" id="header-user-name"></span>
+                </div>
+            </header>
+
+            <!-- Estatísticas Rápidas -->
+            <div class="info-grid" id="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-projects">0</div>
+                    <div class="stat-label">Projetos</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-activities">0</div>
+                    <div class="stat-label">Atividades</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-logins">0</div>
+                    <div class="stat-label">Logins</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" id="stat-status">0</div>
+                    <div class="stat-label">Status</div>
+                </div>
+            </div>
+
+            <!-- Informações do Usuário -->
+            <div class="card">
+                <h3 class="section-title">📋 Informações do Usuário</h3>
+                <div class="info-grid" id="user-info-grid">
+                    <!-- Preenchido dinamicamente -->
+                </div>
+            </div>
+
+            <!-- Ações Administrativas -->
+            <div class="card">
+                <h3 class="section-title">⚙️ Ações do Administrador</h3>
+                
+                <h4 style="color: #fff; margin: 16px 0 8px 0;">🔒 Segurança</h4>
+                <div class="action-grid">
+                    <button class="action-btn" onclick="resetUserPassword()">
+                        <span>🔑</span> Resetar Senha
+                    </button>
+                    <button class="action-btn" onclick="changeUserEmail()">
+                        <span>📧</span> Alterar Email
+                    </button>
+                </div>
+
+                <h4 style="color: #fff; margin: 24px 0 8px 0;">👤 Conta</h4>
+                <div class="action-grid">
+                    <button class="action-btn" id="btn-suspend" onclick="suspendUser()">
+                        <span>⏸️</span> Suspender Usuário
+                    </button>
+                    <button class="action-btn" id="btn-reactivate" onclick="reactivateUser()" style="display:none;">
+                        <span>▶️</span> Reativar Usuário
+                    </button>
+                </div>
+
+                <h4 style="color: #fff; margin: 24px 0 8px 0;">💬 Comunicação</h4>
+                <div class="action-grid">
+                    <button class="action-btn" onclick="sendNotification()">
+                        <span>🔔</span> Enviar Notificação
+                    </button>
+                </div>
+
+                <h4 style="color: #fff; margin: 24px 0 8px 0;">📥 Downloads</h4>
+                <div class="action-grid">
+                    <button class="action-btn" onclick="downloadUserData()">
+                        <span>📄</span> Baixar Dados (JSON)
+                    </button>
+                    <button class="action-btn" onclick="downloadUserActivities()">
+                        <span>📊</span> Baixar Atividades (CSV)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Projetos do Usuário -->
+            <div class="card">
+                <h3 class="section-title">📁 Projetos do Usuário</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Título</th>
+                                <th>Categoria</th>
+                                <th>Status</th>
+                                <th>Criado em</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="projects-table-body">
+                            <tr>
+                                <td colspan="6" style="text-align: center; padding: 40px;">
+                                    Carregando projetos...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Histórico de Login -->
+            <div class="card">
+                <h3 class="section-title">🔐 Histórico de Login</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data/Hora</th>
+                                <th>Endereço IP</th>
+                                <th>Detalhes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="login-history-body">
+                            <tr>
+                                <td colspan="3" style="text-align: center; padding: 40px;">
+                                    Carregando histórico...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Atividades Recentes -->
+            <div class="card">
+                <h3 class="section-title">📊 Atividades Recentes</h3>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Data/Hora</th>
+                                <th>Ação</th>
+                                <th>Categoria</th>
+                                <th>Detalhes</th>
+                            </tr>
+                        </thead>
+                        <tbody id="activities-table-body">
+                            <tr>
+                                <td colspan="4" style="text-align: center; padding: 40px;">
+                                    Carregando atividades...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="utils/sanitize.js"></script>
+    <script src="utils/xss-fixes.js"></script>
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+    <script src="components/toast.js"></script>
+    <script src="components/loading.js"></script>
+    <script src="components/password-modal.js"></script>
+    
+    <script>
+        let currentUserId = null;
+        let currentUserData = null;
+
+        async function loadUserDetails() {
+            const urlParams = new URLSearchParams(window.location.search);
+            currentUserId = urlParams.get('id');
+
+            if (!currentUserId) {
+                showError('ID do usuário não fornecido');
+                return;
+            }
+
+            showLoading();
+            try {
+                const data = await api.get(`/users/${currentUserId}/details`);
+                currentUserData = data;
+                renderUserDetails(data);
+                await loadUserProjects();
+            } catch (error) {
+                showError('Erro ao carregar detalhes: ' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function renderUserDetails(data) {
+            const user = data.user;
+            const stats = data.statistics;
+
+            // Título
+            document.getElementById('user-name-title').textContent = user.name;
+            document.getElementById('user-email-subtitle').textContent = user.email;
+
+            // Estatísticas
+            document.getElementById('stat-projects').textContent = stats.total_projects || 0;
+            document.getElementById('stat-activities').textContent = stats.total_activities || 0;
+            document.getElementById('stat-logins').textContent = stats.login_count || 0;
+            document.getElementById('stat-status').textContent = user.is_active ? 'Ativo' : 'Inativo';
+            document.getElementById('stat-status').style.color = user.is_active ? '#4caf50' : '#f44336';
+
+            // Informações
+            const infoGrid = document.getElementById('user-info-grid');
+            infoGrid.innerHTML = `
+                <div class="info-card">
+                    <div class="info-label">ID do Usuário</div>
+                    <div class="info-value">#${user.id}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Nome Completo</div>
+                    <div class="info-value">${user.name || '0'}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Email</div>
+                    <div class="info-value">${user.email || '0'}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">CPF</div>
+                    <div class="info-value">${user.cpf || '0'}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Perfil</div>
+                    <div class="info-value">${formatRole(user.role)}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Instituição</div>
+                    <div class="info-value">${user.institution || '0'}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Data de Criação</div>
+                    <div class="info-value">${fmtDate(user.created_at)}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Último Login</div>
+                    <div class="info-value">${user.last_login ? fmtDate(user.last_login) : 'Nunca'}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Status da Conta</div>
+                    <div class="info-value">${user.is_active ? '✅ Ativa' : '❌ Inativa'}</div>
+                </div>
+                <div class="info-card">
+                    <div class="info-label">Senha Temporária</div>
+                    <div class="info-value">${user.is_temp_password ? '⚠️ Sim' : '✓ Não'}</div>
+                </div>
+            `;
+
+            // Botões de ação
+            if (user.is_active) {
+                document.getElementById('btn-suspend').style.display = 'flex';
+                document.getElementById('btn-reactivate').style.display = 'none';
+            } else {
+                document.getElementById('btn-suspend').style.display = 'none';
+                document.getElementById('btn-reactivate').style.display = 'flex';
+            }
+
+            // Histórico de login
+            renderLoginHistory(data.login_history || []);
+
+            // Atividades recentes
+            renderActivities(data.recent_activities || []);
+        }
+
+        function renderLoginHistory(logins) {
+            const tbody = document.getElementById('login-history-body');
+            if (logins.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="3" style="text-align:center;padding:40px;color:#888;">Nenhum login registrado</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = logins.map(login => `
+                <tr>
+                    <td>${fmtDate(login.timestamp)}</td>
+                    <td><code style="background:#2a2a2a;padding:4px 8px;border-radius:4px;">${login.ip_address || '0'}</code></td>
+                    <td>${login.details || '0'}</td>
+                </tr>
+            `).join('');
+        }
+
+        function renderActivities(activities) {
+            const tbody = document.getElementById('activities-table-body');
+            if (activities.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="4" style="text-align:center;padding:40px;color:#888;">Nenhuma atividade registrada</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = activities.map(act => `
+                <tr>
+                    <td>${fmtDate(act.timestamp)}</td>
+                    <td><span class="badge badge-blue">${act.action}</span></td>
+                    <td>${act.category || '0'}</td>
+                    <td style="max-width:400px;overflow:hidden;text-overflow:ellipsis;">${act.details || '0'}</td>
+                </tr>
+            `).join('');
+        }
+
+        async function loadUserProjects() {
+            try {
+                const data = await api.get(`/users/${currentUserId}/projects`);
+                renderProjects(data.items || []);
+            } catch (error) {
+                console.error('Erro ao carregar projetos:', error);
+            }
+        }
+
+        function renderProjects(projects) {
+            const tbody = document.getElementById('projects-table-body');
+            if (projects.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center;padding:40px;color:#888;">Nenhum projeto encontrado</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = projects.map(p => `
+                <tr>
+                    <td>${p.id}</td>
+                    <td style="max-width:300px;overflow:hidden;text-overflow:ellipsis;">${p.title}</td>
+                    <td>${p.category || '0'}</td>
+                    <td>${badgeStatus(p.status)}</td>
+                    <td>${fmtDateOnly(p.created_at)}</td>
+                    <td>
+                        <button onclick="window.open('admin-projetos.html?id=${p.id}', '_blank')" class="btn-sm btn-blue">
+                            Abrir
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function formatRole(role) {
+            const roles = {
+                'admin': 'Administrador',
+                'pesquisador': 'Pesquisador',
+                'bolsista': 'Bolsista'
+            };
+            return roles[role] || role;
+        }
+
+        // Ações administrativas
+        async function resetUserPassword() {
+            if (!confirm('Tem certeza que deseja resetar a senha deste usuário?')) return;
+            
+            showLoading();
+            try {
+                const data = await api.post(`/users/${currentUserId}/reset-password`);
+                showSuccess('Senha resetada com sucesso!');
+                alert(`Nova senha temporária: ${data.temp_password}\n\nCopie e envie para o usuário.`);
+                await loadUserDetails();
+            } catch (error) {
+                showError('Erro ao resetar senha: ' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function changeUserEmail() {
+            const newEmail = prompt('Digite o novo email:');
+            if (!newEmail) return;
+
+            showLoading();
+            try {
+                await api.post(`/users/${currentUserId}/change-email?new_email=${encodeURIComponent(newEmail)}`);
+                showSuccess('Email alterado com sucesso!');
+                await loadUserDetails();
+            } catch (error) {
+                showError('Erro ao alterar email: ' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function suspendUser() {
+            if (!confirm('Tem certeza que deseja suspender este usuário?')) return;
+
+            showLoading();
+            try {
+                await api.post(`/users/${currentUserId}/suspend`);
+                showSuccess('Usuário suspenso com sucesso!');
+                await loadUserDetails();
+            } catch (error) {
+                showError('Erro ao suspender usuário: ' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function reactivateUser() {
+            if (!confirm('Tem certeza que deseja reativar este usuário?')) return;
+
+            showLoading();
+            try {
+                await api.post(`/users/${currentUserId}/reactivate`);
+                showSuccess('Usuário reativado com sucesso!');
+                await loadUserDetails();
+            } catch (error) {
+                showError('Erro ao reativar usuário: ' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function sendNotification() {
+            const title = prompt('Título da notificação:');
+            if (!title) return;
+
+            const message = prompt('Mensagem:');
+            if (!message) return;
+
+            const type = prompt('Tipo (info/success/warning/error):', 'info');
+
+            showLoading();
+            try {
+                await api.post(`/users/${currentUserId}/send-notification?title=${encodeURIComponent(title)}&message=${encodeURIComponent(message)}&notification_type=${type}`);
+                showSuccess('Notificação enviada com sucesso!');
+            } catch (error) {
+                showError('Erro ao enviar notificação: ' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function downloadUserData() {
+            showLoading();
+            try {
+                const token = localStorage.getItem('cebio_token');
+                const response = await fetch(`/api/users/${currentUserId}/export/json`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!response.ok) throw new Error('Erro ao baixar dados');
+                
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `usuario_${currentUserId}_dados.json`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                
+                showSuccess('Download concluído!');
+            } catch (error) {
+                showError('Erro ao baixar dados: ' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        async function downloadUserActivities() {
+            showLoading();
+            try {
+                const token = localStorage.getItem('cebio_token');
+                const response = await fetch(`/api/users/${currentUserId}/export/activities-csv`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                if (!response.ok) throw new Error('Erro ao baixar atividades');
+                
+                const blob = await response.blob();
+                const url = window.URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = `usuario_${currentUserId}_atividades.csv`;
+                document.body.appendChild(a);
+                a.click();
+                window.URL.revokeObjectURL(url);
+                document.body.removeChild(a);
+                
+                showSuccess('Download concluído!');
+            } catch (error) {
+                showError('Erro ao baixar atividades: ' + error.message);
+            } finally {
+                hideLoading();
+            }
+        }
+
+        // Carregar ao iniciar
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!Session.requireAuth('admin')) return;
+            loadUserDetails();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submissão de Projeto - CEBIO Brasil</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .author-block {
+      background: #0a0a0a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 16px;
+      position: relative;
+    }
+    .author-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .author-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #4dd0e1;
+    }
+    .btn-remove-author {
+      background: #f44336;
+      color: white;
+      border: none;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 13px;
+    }
+    .btn-remove-author:hover {
+      background: #d32f2f;
+    }
+    .cpf-search-status {
+      font-size: 12px;
+      margin-top: 4px;
+      padding: 4px 8px;
+      border-radius: 4px;
+      display: inline-block;
+    }
+    .cpf-found {
+      background: #4caf50;
+      color: white;
+    }
+    .cpf-not-found {
+      background: #ff9800;
+      color: white;
+    }
+    .cpf-searching {
+      background: #2196f3;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="top-header">
+    <div class="top-header-left">
+      <div class="logo-if"><span class="r"></span><span class="g"></span><span class="g"></span><span class="g"></span><span class="g"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span></div>
+      <span class="logo-x">x</span>
+      <svg viewBox="0 0 40 40" width="28" height="28"><polygon points="20,2 35,10 35,26 20,34 5,26 5,10" fill="none" stroke="#4dd0e1" stroke-width="1.8"/><circle cx="20" cy="14" r="2.5" fill="#4dd0e1"/><circle cx="14" cy="22" r="2.5" fill="#4dd0e1"/><circle cx="26" cy="22" r="2.5" fill="#4dd0e1"/><line x1="20" y1="14" x2="14" y2="22" stroke="#4dd0e1" stroke-width="1.2"/><line x1="20" y1="14" x2="26" y2="22" stroke="#4dd0e1" stroke-width="1.2"/><line x1="14" y1="22" x2="26" y2="22" stroke="#4dd0e1" stroke-width="1.2"/></svg>
+      <div class="brand-text"><h1>CEBIO Brasil</h1><p>Centro de Excelência em Bioinsumos</p></div>
+    </div>
+    <div class="top-header-right"><span class="user-name" id="header-user-name">Carregando...</span></div>
+  </header>
+
+  <!-- SUB-HEADER -->
+  <div class="sub-header">
+    <div class="sub-header-left">
+      <span class="page-name">Nova Submissão</span>
+      <nav class="nav-tabs">
+        <a href="pesquisador-dashboard.html" class="nav-tab">Dashboard</a>
+        <a href="pesquisador-projetos.html" class="nav-tab">Meus Projetos</a>
+        <a href="pesquisador-submissao-novo.html" class="nav-tab active">Nova Submissão</a>
+      </nav>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <div class="main-container" style="max-width:900px;">
+    <div class="card">
+      <h2>Nova Submissão de Projeto</h2>
+      <p style="color:#888;margin-bottom:32px;">Preencha todas as informações necessárias para submeter seu projeto</p>
+
+      <form id="submissionForm">
+        <!-- INFORMAÇÕES GERAIS -->
+        <h3 style="color:#4dd0e1;margin-bottom:16px;">📋 Informações Gerais</h3>
+
+        <div class="form-group">
+          <label>Título do Projeto <span style="color:#f44336;">*</span></label>
+          <input type="text" id="title" required placeholder="Digite o título do projeto">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Categoria <span style="color:#f44336;">*</span></label>
+            <select id="category" required>
+              <option value="">Selecione...</option>
+              <option value="Projetos de Pesquisa">Projetos de Pesquisa</option>
+              <option value="Artigos">Artigos</option>
+              <option value="Projetos de Ensino">Projetos de Ensino</option>
+              <option value="Disciplinas">Disciplinas</option>
+              <option value="Cursos">Cursos</option>
+              <option value="Orientações">Orientações</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Nível Acadêmico</label>
+            <select id="academic_level">
+              <option value="">Selecione...</option>
+              <option value="Graduação">Graduação</option>
+              <option value="Mestrado">Mestrado</option>
+              <option value="Doutorado">Doutorado</option>
+              <option value="Pós-Doutorado">Pós-Doutorado</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Data de Início <span style="color:#f44336;">*</span></label>
+            <input type="date" id="start_date" required>
+          </div>
+          <div class="form-group">
+            <label>Data de Término <span style="color:#f44336;">*</span></label>
+            <input type="date" id="end_date" required>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Resumo <span style="color:#f44336;">*</span></label>
+          <textarea id="summary" required placeholder="Descreva o resumo do projeto" rows="6"></textarea>
+        </div>
+
+        <div class="form-group">
+          <label>Público-Alvo</label>
+          <input type="text" id="target_audience" placeholder="Ex: Estudantes de graduação, professores, pesquisadores">
+        </div>
+
+        <!-- AUTORES -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:32px 0 16px;">
+          <h3 style="color:#4dd0e1;margin:0;">👥 Autores/Colaboradores</h3>
+          <button type="button" onclick="addAuthor()" class="btn btn-green" style="padding:8px 16px;">
+            + Adicionar Autor
+          </button>
+        </div>
+
+        <div id="authors-container">
+          <!-- Autores serão adicionados aqui dinamicamente -->
+        </div>
+
+        <!-- LINKS EXTERNOS -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin:32px 0 16px;">
+          <h3 style="color:#4dd0e1;margin:0;">🔗 Links Externos (Opcional)</h3>
+          <button type="button" onclick="addLink()" class="btn btn-gray" style="padding:8px 16px;">
+            + Adicionar Link
+          </button>
+        </div>
+
+        <div id="links-container">
+          <!-- Links serão adicionados aqui dinamicamente -->
+        </div>
+
+        <!-- BOTÕES -->
+        <div style="display:flex;gap:12px;margin-top:32px;justify-content:flex-end;">
+          <button type="button" onclick="history.back()" class="btn btn-gray">
+            Cancelar
+          </button>
+          <button type="button" onclick="saveDraft()" class="btn" style="background:#424242;">
+            📋 Salvar Rascunho
+          </button>
+          <button type="submit" class="btn btn-green">
+            ✈️ Submeter para Revisão
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="utils/sanitize.js"></script>
+  <script src="utils/xss-fixes.js"></script>
+  <script src="api.js"></script>
+  <script src="components/toast.js"></script>
+  <script src="components/loading.js"></script>
+  <script src="components/password-modal.js"></script>
+  <script src="script.js"></script>
+  
+  <script>
+    let authorCount = 0;
+    let linkCount = 0;
+
+    // Adicionar primeiro autor ao carregar
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!Session.requireAuth()) return;
+      addAuthor(true); // Primeiro autor (principal)
+    });
+
+    function addAuthor(isMain = false) {
+      authorCount++;
+      const container = document.getElementById('authors-container');
+      const authorId = `author-${authorCount}`;
+      
+      const authorBlock = document.createElement('div');
+      authorBlock.className = 'author-block';
+      authorBlock.id = authorId;
+      authorBlock.innerHTML = `
+        <div class="author-header">
+          <div class="author-title">
+            ${isMain ? '⭐ Autor Principal' : `Autor ${authorCount}`}
+          </div>
+          ${!isMain ? `<button type="button" onclick="removeAuthor('${authorId}')" class="btn-remove-author">🗑️ Remover</button>` : ''}
+        </div>
+
+        <div class="form-group">
+          <label>CPF <span style="color:#f44336;">*</span></label>
+          <input type="text" 
+                 class="author-cpf" 
+                 data-author-id="${authorId}"
+                 placeholder="000.000.000-00" 
+                 onblur="searchUserByCPF(this)"
+                 required>
+          <div class="cpf-status" id="${authorId}-status"></div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome Completo <span style="color:#f44336;">*</span></label>
+            <input type="text" id="${authorId}-name" required placeholder="Nome do autor">
+          </div>
+          <div class="form-group">
+            <label>Instituição <span style="color:#f44336;">*</span></label>
+            <input type="text" id="${authorId}-institution" required placeholder="Nome da instituição">
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nível Acadêmico</label>
+            <select id="${authorId}-level">
+              <option value="">Selecione...</option>
+              <option value="Graduação">Graduação</option>
+              <option value="Mestrado">Mestrado</option>
+              <option value="Doutorado">Doutorado</option>
+              <option value="Pós-Doutorado">Pós-Doutorado</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Função/Papel</label>
+            <input type="text" id="${authorId}-role" value="${isMain ? 'Autor Principal' : 'Coautor'}" placeholder="Ex: Coautor, Orientador">
+          </div>
+        </div>
+
+        <input type="hidden" id="${authorId}-is-main" value="${isMain}">
+        <input type="hidden" id="${authorId}-user-id" value="">
+      `;
+      
+      container.appendChild(authorBlock);
+    }
+
+    function removeAuthor(authorId) {
+      if (confirm('Tem certeza que deseja remover este autor?')) {
+        document.getElementById(authorId).remove();
+      }
+    }
+
+    async function searchUserByCPF(input) {
+      const cpf = input.value.replace(/\D/g, ''); // Remove caracteres não numéricos
+      const authorId = input.dataset.authorId;
+      const statusDiv = document.getElementById(`${authorId}-status`);
+      
+      if (!cpf || cpf.length !== 11) {
+        statusDiv.innerHTML = '';
+        return;
+      }
+
+      // Mostrar buscando
+      statusDiv.innerHTML = '<span class="cpf-search-status cpf-searching">🔍 Buscando usuário...</span>';
+
+      try {
+        const data = await api.get(`/users/search/cpf/${cpf}`);
+        
+        if (data.found) {
+          // Usuário encontrado - preencher dados automaticamente
+          const user = data.user;
+          document.getElementById(`${authorId}-name`).value = user.name;
+          document.getElementById(`${authorId}-institution`).value = user.institution || '';
+          document.getElementById(`${authorId}-user-id`).value = user.id;
+          
+          statusDiv.innerHTML = `<span class="cpf-search-status cpf-found">✓ Usuário encontrado: ${user.name}</span>`;
+          
+          // Desabilitar campos preenchidos automaticamente
+          document.getElementById(`${authorId}-name`).readOnly = true;
+          document.getElementById(`${authorId}-institution`).readOnly = true;
+        } else {
+          // Usuário não encontrado - permitir preenchimento manual
+          statusDiv.innerHTML = '<span class="cpf-search-status cpf-not-found">⚠️ Usuário não cadastrado. Preencha manualmente.</span>';
+          document.getElementById(`${authorId}-name`).readOnly = false;
+          document.getElementById(`${authorId}-institution`).readOnly = false;
+          document.getElementById(`${authorId}-user-id`).value = '';
+        }
+      } catch (error) {
+        console.error('Erro ao buscar usuário:', error);
+        statusDiv.innerHTML = '<span class="cpf-search-status cpf-not-found">⚠️ Erro ao buscar. Preencha manualmente.</span>';
+        document.getElementById(`${authorId}-name`).readOnly = false;
+        document.getElementById(`${authorId}-institution`).readOnly = false;
+      }
+    }
+
+    function addLink() {
+      linkCount++;
+      const container = document.getElementById('links-container');
+      const linkId = `link-${linkCount}`;
+      
+      const linkBlock = document.createElement('div');
+      linkBlock.className = 'author-block';
+      linkBlock.id = linkId;
+      linkBlock.innerHTML = `
+        <div class="author-header">
+          <div class="author-title">Link ${linkCount}</div>
+          <button type="button" onclick="removeLink('${linkId}')" class="btn-remove-author">🗑️ Remover</button>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>URL</label>
+            <input type="url" id="${linkId}-url" placeholder="https://exemplo.com/recurso">
+          </div>
+          <div class="form-group">
+            <label>Tipo</label>
+            <select id="${linkId}-type">
+              <option value="Outro">Outro</option>
+              <option value="GitHub">GitHub</option>
+              <option value="Artigo">Artigo</option>
+              <option value="Documentação">Documentação</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Título</label>
+          <input type="text" id="${linkId}-title" placeholder="Título do link">
+        </div>
+
+        <div class="form-group">
+          <label>Descrição</label>
+          <textarea id="${linkId}-description" rows="2" placeholder="Descrição opcional"></textarea>
+        </div>
+      `;
+      
+      container.appendChild(linkBlock);
+    }
+
+    function removeLink(linkId) {
+      document.getElementById(linkId).remove();
+    }
+
+    function collectAuthors() {
+      const authors = [];
+      const authorBlocks = document.querySelectorAll('.author-block[id^="author-"]');
+      
+      authorBlocks.forEach((block, index) => {
+        const id = block.id;
+        const cpfInput = block.querySelector('.author-cpf');
+        const cpf = cpfInput ? cpfInput.value.replace(/\D/g, '') : '';
+        
+        authors.push({
+          name: document.getElementById(`${id}-name`)?.value || '',
+          cpf: cpf,
+          institution: document.getElementById(`${id}-institution`)?.value || '',
+          academic_level: document.getElementById(`${id}-level`)?.value || '',
+          role: document.getElementById(`${id}-role`)?.value || '',
+          is_main: document.getElementById(`${id}-is-main`)?.value === 'true',
+          order_index: index
+        });
+      });
+      
+      return authors;
+    }
+
+    function collectLinks() {
+      const links = [];
+      const linkBlocks = document.querySelectorAll('.author-block[id^="link-"]');
+      
+      linkBlocks.forEach(block => {
+        const id = block.id;
+        const url = document.getElementById(`${id}-url`)?.value;
+        
+        if (url) {
+          links.push({
+            url: url,
+            title: document.getElementById(`${id}-title`)?.value || '',
+            description: document.getElementById(`${id}-description`)?.value || '',
+            link_type: document.getElementById(`${id}-type`)?.value || 'Outro'
+          });
+        }
+      });
+      
+      return links;
+    }
+
+    async function saveDraft() {
+      await submitProject('rascunho');
+    }
+
+    async function submitProject(status = 'em_submissao') {
+      const form = document.getElementById('submissionForm');
+      if (!form.checkValidity()) {
+        form.reportValidity();
+        return;
+      }
+
+      const authors = collectAuthors();
+      if (authors.length === 0) {
+        showError('Adicione pelo menos um autor');
+        return;
+      }
+
+      const projectData = {
+        title: document.getElementById('title').value,
+        category: document.getElementById('category').value,
+        academic_level: document.getElementById('academic_level').value,
+        start_date: document.getElementById('start_date').value,
+        end_date: document.getElementById('end_date').value,
+        summary: document.getElementById('summary').value,
+        target_audience: document.getElementById('target_audience').value,
+        authors: authors,
+        links: collectLinks()
+      };
+
+      showLoading();
+      try {
+        const project = await api.post('/projects', projectData);
+        
+        if (status === 'em_submissao') {
+          await api.post(`/projects/${project.id}/submit`);
+          showSuccess('Projeto submetido com sucesso!');
+        } else {
+          showSuccess('Rascunho salvo com sucesso!');
+        }
+        
+        setTimeout(() => {
+          window.location.href = 'pesquisador-projetos.html';
+        }, 1500);
+      } catch (error) {
+        showError('Erro ao salvar projeto: ' + error.message);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    document.getElementById('submissionForm').addEventListener('submit', (e) => {
+      e.preventDefault();
+      submitProject('em_submissao');
+    });
+  </script>
+</body>
+</html>

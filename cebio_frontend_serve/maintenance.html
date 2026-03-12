@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema em Manutenção - CEBIO Brasil</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            margin: 0;
+            padding: 20px;
+        }
+        
+        .maintenance-container {
+            max-width: 600px;
+            width: 100%;
+            background: #1a1a1a;
+            border: 1px solid #333;
+            border-radius: 12px;
+            padding: 48px 32px;
+            text-align: center;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5);
+        }
+        
+        .maintenance-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 24px;
+            background: #2a2a2a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .maintenance-icon svg {
+            width: 60px;
+            height: 60px;
+            stroke: #4dd0e1;
+        }
+        
+        h1 {
+            color: #4dd0e1;
+            font-size: 32px;
+            margin: 0 0 16px 0;
+        }
+        
+        .maintenance-message {
+            color: #ccc;
+            font-size: 18px;
+            line-height: 1.6;
+            margin: 0 0 32px 0;
+        }
+        
+        .maintenance-details {
+            background: #0a0a0a;
+            border: 1px solid #333;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 32px;
+        }
+        
+        .maintenance-details p {
+            color: #888;
+            font-size: 14px;
+            margin: 8px 0;
+        }
+        
+        .btn-retry {
+            background: #4dd0e1;
+            color: #0a0a0a;
+            border: none;
+            padding: 14px 32px;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-retry:hover {
+            background: #3bc0d0;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(77, 208, 225, 0.3);
+        }
+        
+        .btn-retry:active {
+            transform: translateY(0);
+        }
+        
+        .loading-dots {
+            display: inline-block;
+            margin-left: 8px;
+        }
+        
+        .loading-dots span {
+            animation: blink 1.4s infinite both;
+        }
+        
+        .loading-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+        
+        .loading-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+        
+        @keyframes blink {
+            0%, 80%, 100% {
+                opacity: 0;
+            }
+            40% {
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="maintenance-container">
+        <div class="maintenance-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                <path d="M12 8v4"/>
+                <path d="M12 16h.01"/>
+            </svg>
+        </div>
+        
+        <h1>Sistema em Manutenção</h1>
+        
+        <p class="maintenance-message" id="maintenance-message">
+            Estamos realizando melhorias no sistema. Por favor, tente novamente em alguns minutos.
+        </p>
+        
+        <div class="maintenance-details">
+            <p><strong>Status:</strong> Manutenção Programada</p>
+            <p><strong>Previsão:</strong> Alguns minutos</p>
+            <p id="check-time"></p>
+        </div>
+        
+        <button class="btn-retry" onclick="checkAndRedirect()">
+            Tentar Novamente
+            <span class="loading-dots" id="loading-dots" style="display: none;">
+                <span>.</span><span>.</span><span>.</span>
+            </span>
+        </button>
+    </div>
+
+    <script>
+        // Exibir mensagem personalizada se houver
+        const savedMessage = localStorage.getItem('maintenance_message');
+        if (savedMessage) {
+            document.getElementById('maintenance-message').textContent = savedMessage;
+        }
+        
+        // Atualizar horário da última verificação
+        function updateCheckTime() {
+            const now = new Date();
+            const timeStr = now.toLocaleTimeString('pt-BR');
+            document.getElementById('check-time').innerHTML = 
+                `<strong>Última verificação:</strong> ${timeStr}`;
+        }
+        
+        updateCheckTime();
+        
+        // Verificar se manutenção terminou
+        async function checkAndRedirect() {
+            const btn = document.querySelector('.btn-retry');
+            const dots = document.getElementById('loading-dots');
+            
+            btn.disabled = true;
+            dots.style.display = 'inline-block';
+            
+            try {
+                const response = await fetch('/api/admin/maintenance');
+                const data = await response.json();
+                
+                if (!data.maintenance_mode) {
+                    // Manutenção terminou, redirecionar para login
+                    localStorage.removeItem('maintenance_message');
+                    window.location.href = 'login.html';
+                } else {
+                    // Ainda em manutenção
+                    updateCheckTime();
+                    
+                    // Feedback visual
+                    btn.textContent = 'Ainda em manutenção...';
+                    setTimeout(() => {
+                        btn.textContent = 'Tentar Novamente';
+                        btn.disabled = false;
+                        dots.style.display = 'none';
+                    }, 2000);
+                }
+            } catch (error) {
+                console.error('Erro ao verificar manutenção:', error);
+                btn.textContent = 'Erro ao verificar. Tente novamente.';
+                setTimeout(() => {
+                    btn.textContent = 'Tentar Novamente';
+                    btn.disabled = false;
+                    dots.style.display = 'none';
+                }, 2000);
+            }
+        }
+        
+        // Verificar automaticamente a cada 60 segundos
+        setInterval(async () => {
+            try {
+                const response = await fetch('/api/admin/maintenance');
+                const data = await response.json();
+                
+                if (!data.maintenance_mode) {
+                    localStorage.removeItem('maintenance_message');
+                    window.location.href = 'login.html';
+                } else {
+                    updateCheckTime();
+                }
+            } catch (error) {
+                console.log('Erro na verificação automática:', error);
+            }
+        }, 60000); // 60 segundos
+    </script>
+</body>
+</html>

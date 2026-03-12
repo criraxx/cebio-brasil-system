@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Modo Manutenção - CEBIO Brasil</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="top-header">
+    <div class="top-header-left">
+      <div class="logo-if"><span class="r"></span><span class="g"></span><span class="g"></span><span class="g"></span><span class="g"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span></div>
+      <span class="logo-x">x</span>
+      <svg viewBox="0 0 40 40" width="28" height="28"><polygon points="20,2 35,10 35,26 20,34 5,26 5,10" fill="none" stroke="#4dd0e1" stroke-width="1.8"/><circle cx="20" cy="14" r="2.5" fill="#4dd0e1"/><circle cx="14" cy="22" r="2.5" fill="#4dd0e1"/><circle cx="26" cy="22" r="2.5" fill="#4dd0e1"/><line x1="20" y1="14" x2="14" y2="22" stroke="#4dd0e1" stroke-width="1.2"/><line x1="20" y1="14" x2="26" y2="22" stroke="#4dd0e1" stroke-width="1.2"/><line x1="14" y1="22" x2="26" y2="22" stroke="#4dd0e1" stroke-width="1.2"/></svg>
+      <div class="brand-text"><h1>CEBIO Brasil</h1><p>Centro de Excelência em Bioinsumos</p></div>
+    </div>
+    <div class="top-header-center"><div class="search-box"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="rgba(255,255,255,0.7)" stroke-width="2" fill="none"/></svg><input type="text" placeholder="Buscar projetos..."></div></div>
+    <div class="top-header-right"><span class="user-name" id="header-user-name">Carregando...</span><span class="user-badge-type badge-admin">Admin</span></div>
+  </header>
+
+  <!-- SUB-HEADER -->
+  <div class="sub-header">
+    <div class="sub-header-left">
+      <nav class="nav-tabs">
+        <a href="admin-dashboard.html" class="nav-tab">Dashboard</a>
+        <a href="admin-projetos.html" class="nav-tab">Projetos</a>
+        <a href="admin-usuarios.html" class="nav-tab">Usuários</a>
+        <a href="admin-acoes.html" class="nav-tab">Ações Admin</a>
+        <a href="admin-notificacao-massa.html" class="nav-tab">Notificação em Massa</a>
+        <a href="admin-manutencao.html" class="nav-tab active">Modo Manutenção</a>
+        <a href="admin-relatorios.html" class="nav-tab">Relatórios</a>
+        <a href="admin-auditoria.html" class="nav-tab">Auditoria</a>
+      </nav>
+    </div>
+    <div class="sub-header-right">
+      <div class="notif-bell"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+      <div class="user-info"><div class="user-avatar" id="user-avatar">--</div></div>
+      <div class="logout-btn" data-href="login.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <div class="main-container">
+    <!-- STAT CARDS -->
+    <div class="stats-grid" style="grid-template-columns:repeat(3,1fr);">
+      <div class="stat-card">
+        <div><div class="stat-label">Total de Usuários</div><div class="stat-number" id="stat-n-1">0</div></div>
+        <div class="stat-icon yellow"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg></div>
+      </div>
+      <div class="stat-card">
+        <div><div class="stat-label">Última Notificação Enviada</div><div class="stat-number" style="font-size:24px;"><span class="dyn-date">0</span></div></div>
+        <div class="stat-icon green"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+      </div>
+      <div class="stat-card" style="background:#f1f8e9;">
+        <div><div class="stat-label">Status do Sistema</div><div class="stat-text-big" id="system-status">0</div></div>
+        <div class="stat-icon green"><svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z"/></svg></div>
+      </div>
+    </div>
+
+    <!-- STATUS DO MODO MANUTENÇÃO -->
+    <div class="card">
+      <div class="card-head"><h3>Status do Modo Manutenção</h3></div>
+      <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px;">
+        <label class="toggle-switch">
+          <input type="checkbox" id="maintenanceToggle">
+          <span class="toggle-slider"></span>
+        </label>
+        <div>
+          <h4 style="font-size:16px;font-weight:700;">Ativar Modo Manutenção</h4>
+          <p style="font-size:14px;color:var(--text-secondary);">Status: <span style="color:var(--red-icon);font-weight:700;">DESATIVADO</span> - O sistema está acessível a todos os usuários.</p>
+        </div>
+      </div>
+      <div class="warning-box">
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="currentColor"><path d="M1 21h22L12 2 1 21zm12-3h-2v-2h2v2zm0-4h-2v-4h2v4z"/></svg>
+        <p>Quando ativo, apenas usuários com permissão de Administrador poderão acessar o sistema.</p>
+      </div>
+    </div>
+
+    <!-- CONFIGURAÇÕES DE MANUTENÇÃO -->
+    <div class="card">
+      <div class="card-head"><h3>Configurações de Manutenção</h3></div>
+      <div class="form-group">
+        <label><strong>Mensagem de Aviso:</strong></label>
+        <textarea style="min-height:150px;"></textarea>
+      </div>
+      <div class="form-group">
+        <label><strong>Previsão de Retorno:</strong></label>
+        <div style="display:flex;gap:12px;">
+          <input type="date" value="2025-12-28" style="flex:1;padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:inherit;">
+          <input type="time" value="12:00" style="width:120px;padding:10px 14px;border:1px solid var(--border);border-radius:var(--radius-sm);font-size:14px;font-family:inherit;">
+        </div>
+      </div>
+    </div>
+
+    <!-- BOTÃO -->
+    <div style="margin-top:24px;">
+      <button class="btn btn-green" onclick="alert('Configurações salvas com sucesso!')">Salvar Configurações</button>
+    </div>
+  </div>
+
+  <script src="utils/sanitize.js"></script>
+  <script src="utils/xss-fixes.js"></script>
+  <script src="api.js"></script>
+  <script src="components/toast.js"></script>
+  <script src="components/loading.js"></script>
+  <script src="components/password-modal.js"></script>
+  <script src="script.js"></script>
+  <script>
+    document.getElementById('maintenanceToggle').addEventListener('change', function() {
+      const statusText = this.closest('.card').querySelector('p span');
+      if (this.checked) {
+        statusText.textContent = 'ATIVADO';
+        statusText.style.color = 'var(--green-main)';
+      } else {
+        statusText.textContent = 'DESATIVADO';
+        statusText.style.color = 'var(--red-icon)';
+      }
+    });
+  </script>
+</body>
+</html>

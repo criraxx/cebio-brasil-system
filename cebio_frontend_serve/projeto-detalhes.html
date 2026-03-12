@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Detalhes do Projeto - CEBIO Brasil</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .project-header {
+      background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%);
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+    .project-title {
+      font-size: 28px;
+      font-weight: 700;
+      color: #4dd0e1;
+      margin-bottom: 12px;
+    }
+    .project-meta {
+      display: flex;
+      gap: 24px;
+      flex-wrap: wrap;
+      color: #888;
+      font-size: 14px;
+    }
+    .info-section {
+      background: #0a0a0a;
+      border: 1px solid #333;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .section-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #4dd0e1;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .info-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 16px;
+    }
+    .info-item {
+      padding: 12px;
+      background: #1a1a1a;
+      border-radius: 4px;
+    }
+    .info-label {
+      font-size: 12px;
+      color: #888;
+      margin-bottom: 4px;
+    }
+    .info-value {
+      font-size: 14px;
+      color: #fff;
+    }
+    .author-card {
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 6px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .author-name {
+      font-size: 16px;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+    .author-info {
+      font-size: 13px;
+      color: #888;
+      margin-bottom: 4px;
+    }
+    .file-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 12px;
+      background: #1a1a1a;
+      border: 1px solid #333;
+      border-radius: 4px;
+      margin-bottom: 8px;
+    }
+    .file-icon {
+      width: 40px;
+      height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #2a2a2a;
+      border-radius: 4px;
+    }
+    .file-info {
+      flex: 1;
+    }
+    .file-name {
+      font-size: 14px;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+    .file-size {
+      font-size: 12px;
+      color: #888;
+    }
+    .version-item {
+      padding: 12px;
+      background: #1a1a1a;
+      border-left: 3px solid #4dd0e1;
+      margin-bottom: 12px;
+      border-radius: 4px;
+    }
+    .version-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 8px;
+    }
+    .version-number {
+      font-weight: 600;
+      color: #4dd0e1;
+    }
+    .version-date {
+      font-size: 12px;
+      color: #888;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="top-header">
+    <div class="top-header-left">
+      <div class="logo-if"><span class="r"></span><span class="g"></span><span class="g"></span><span class="g"></span><span class="g"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span></div>
+      <span class="logo-x">x</span>
+      <svg viewBox="0 0 40 40" width="28" height="28"><polygon points="20,2 35,10 35,26 20,34 5,26 5,10" fill="none" stroke="#4dd0e1" stroke-width="1.8"/><circle cx="20" cy="14" r="2.5" fill="#4dd0e1"/><circle cx="14" cy="22" r="2.5" fill="#4dd0e1"/><circle cx="26" cy="22" r="2.5" fill="#4dd0e1"/><line x1="20" y1="14" x2="14" y2="22" stroke="#4dd0e1" stroke-width="1.2"/><line x1="20" y1="14" x2="26" y2="22" stroke="#4dd0e1" stroke-width="1.2"/><line x1="14" y1="22" x2="26" y2="22" stroke="#4dd0e1" stroke-width="1.2"/></svg>
+      <div class="brand-text"><h1>CEBIO Brasil</h1><p>Centro de Excelência em Bioinsumos</p></div>
+    </div>
+    <div class="top-header-right"><span class="user-name" id="header-user-name">Carregando...</span></div>
+  </header>
+
+  <!-- SUB-HEADER -->
+  <div class="sub-header">
+    <div class="sub-header-left">
+      <button onclick="window.history.back()" class="btn btn-dark" style="margin-right:16px;">← Voltar</button>
+      <span class="page-name">Detalhes do Projeto</span>
+    </div>
+    <div class="sub-header-right">
+      <button onclick="generateProjectPDF(currentProjectId)" class="btn btn-blue" style="margin-right:8px;">
+        📄 Gerar PDF
+      </button>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <div class="main-container" style="max-width:1200px;">
+    <!-- Header do Projeto -->
+    <div class="project-header">
+      <div class="project-title" id="project-title">Carregando...</div>
+      <div class="project-meta">
+        <span id="project-category">0</span>
+        <span>•</span>
+        <span id="project-level">0</span>
+        <span>•</span>
+        <span id="project-owner">0</span>
+        <span>•</span>
+        <span id="project-date">0</span>
+      </div>
+      <div style="margin-top:16px;" id="project-status-badge"></div>
+    </div>
+
+    <!-- Informações Básicas -->
+    <div class="info-section">
+      <div class="section-title">📋 Informações Básicas</div>
+      <div class="info-grid" id="basic-info-grid">
+        <!-- Preenchido dinamicamente -->
+      </div>
+    </div>
+
+    <!-- Resumo -->
+    <div class="info-section">
+      <div class="section-title">📝 Resumo</div>
+      <p id="project-summary" style="color:#ccc;line-height:1.6;">Carregando...</p>
+    </div>
+
+    <!-- Público-Alvo -->
+    <div class="info-section" id="target-audience-section" style="display:none;">
+      <div class="section-title">🎯 Público-Alvo</div>
+      <p id="project-target-audience" style="color:#ccc;"></p>
+    </div>
+
+    <!-- Autores -->
+    <div class="info-section">
+      <div class="section-title">👥 Autores/Colaboradores</div>
+      <div id="authors-list">
+        <p style="color:#888;">Carregando autores...</p>
+      </div>
+    </div>
+
+    <!-- Arquivos Anexados -->
+    <div class="info-section" id="files-section">
+      <div class="section-title">📎 Arquivos Anexados</div>
+      
+      <h4 style="color:#fff;margin:16px 0 12px 0;">📷 Fotos</h4>
+      <div id="photos-list">
+        <p style="color:#888;">Nenhuma foto anexada</p>
+      </div>
+
+      <h4 style="color:#fff;margin:24px 0 12px 0;">📄 Documentos PDF</h4>
+      <div id="documents-list">
+        <p style="color:#888;">Nenhum documento anexado</p>
+      </div>
+    </div>
+
+    <!-- Links Externos -->
+    <div class="info-section" id="links-section" style="display:none;">
+      <div class="section-title">🔗 Links Externos</div>
+      <div id="links-list"></div>
+    </div>
+
+    <!-- Histórico de Versões -->
+    <div class="info-section">
+      <div class="section-title">📜 Histórico de Versões</div>
+      <div id="versions-list">
+        <p style="color:#888;">Carregando histórico...</p>
+      </div>
+    </div>
+
+    <!-- Comentários -->
+    <div class="info-section" id="comments-section">
+      <div class="section-title">💬 Comentários</div>
+      <div id="comments-list">
+        <p style="color:#888;">Nenhum comentário</p>
+      </div>
+    </div>
+  </div>
+
+  <script src="utils/sanitize.js"></script>
+  <script src="utils/xss-fixes.js"></script>
+  <script src="api.js"></script>
+  <script src="components/toast.js"></script>
+  <script src="components/loading.js"></script>
+  <script src="components/password-modal.js"></script>
+  <script src="script.js"></script>
+  
+  <script>
+    let currentProjectId = null;
+    let currentProject = null;
+
+    async function loadProjectDetails() {
+      const urlParams = new URLSearchParams(window.location.search);
+      currentProjectId = urlParams.get('id');
+
+      if (!currentProjectId) {
+        showError('ID do projeto não fornecido');
+        return;
+      }
+
+      showLoading();
+      try {
+        currentProject = await api.get(`/projects/${currentProjectId}`);
+        renderProjectDetails(currentProject);
+        await loadVersions();
+        await loadComments();
+      } catch (error) {
+        showError('Erro ao carregar projeto: ' + error.message);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    function renderProjectDetails(project) {
+      // Header
+      document.getElementById('project-title').textContent = project.title;
+      document.getElementById('project-category').textContent = project.category || '0';
+      document.getElementById('project-level').textContent = project.academic_level || '0';
+      document.getElementById('project-owner').textContent = project.owner_name || '0';
+      document.getElementById('project-date').textContent = fmtDateOnly(project.created_at);
+      document.getElementById('project-status-badge').innerHTML = badgeStatus(project.status);
+
+      // Informações básicas
+      const basicInfo = document.getElementById('basic-info-grid');
+      basicInfo.innerHTML = `
+        <div class="info-item">
+          <div class="info-label">ID do Projeto</div>
+          <div class="info-value">#${project.id}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Status</div>
+          <div class="info-value">${formatStatus(project.status)}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Data de Início</div>
+          <div class="info-value">${project.start_date ? fmtDateOnly(project.start_date) : '0'}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Data de Término</div>
+          <div class="info-value">${project.end_date ? fmtDateOnly(project.end_date) : '0'}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Criado em</div>
+          <div class="info-value">${fmtDate(project.created_at)}</div>
+        </div>
+        <div class="info-item">
+          <div class="info-label">Última Atualização</div>
+          <div class="info-value">${fmtDate(project.updated_at)}</div>
+        </div>
+      `;
+
+      // Resumo
+      document.getElementById('project-summary').textContent = project.summary || 'Sem resumo';
+
+      // Público-alvo
+      if (project.target_audience) {
+        document.getElementById('target-audience-section').style.display = 'block';
+        document.getElementById('project-target-audience').textContent = project.target_audience;
+      }
+
+      // Autores
+      renderAuthors(project.authors || []);
+
+      // Arquivos
+      renderFiles(project.files || []);
+
+      // Links
+      if (project.links && project.links.length > 0) {
+        document.getElementById('links-section').style.display = 'block';
+        renderLinks(project.links);
+      }
+    }
+
+    function renderAuthors(authors) {
+      const container = document.getElementById('authors-list');
+      
+      if (authors.length === 0) {
+        container.innerHTML = '<p style="color:#888;">Nenhum autor cadastrado</p>';
+        return;
+      }
+
+      container.innerHTML = authors.map(author => `
+        <div class="author-card">
+          <div class="author-name">
+            ${author.is_main ? '⭐ ' : ''}${author.name}
+          </div>
+          <div class="author-info">📧 CPF: ${author.cpf || '0'}</div>
+          <div class="author-info">🏛️ ${author.institution || '0'}</div>
+          <div class="author-info">🎓 ${author.academic_level || '0'} • ${author.role || '0'}</div>
+        </div>
+      `).join('');
+    }
+
+    function renderFiles(files) {
+      const photos = files.filter(f => f.file_type === 'foto');
+      const documents = files.filter(f => f.file_type === 'documento');
+
+      // Fotos
+      const photosContainer = document.getElementById('photos-list');
+      if (photos.length > 0) {
+        photosContainer.innerHTML = photos.map(file => `
+          <div class="file-item">
+            <div class="file-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="#4dd0e1">
+                <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                <circle cx="8.5" cy="8.5" r="1.5"/>
+                <polyline points="21 15 16 10 5 21"/>
+              </svg>
+            </div>
+            <div class="file-info">
+              <div class="file-name">${file.original_name}</div>
+              <div class="file-size">${formatFileSize(file.size_bytes)}</div>
+            </div>
+            <button onclick="downloadFile(${file.id}, '${file.original_name.replace(/'/g, "\\'")}')" class="btn btn-sm btn-blue">
+              Download
+            </button>
+          </div>
+        `).join('');
+      }
+
+      // Documentos
+      const documentsContainer = document.getElementById('documents-list');
+      if (documents.length > 0) {
+        documentsContainer.innerHTML = documents.map(file => `
+          <div class="file-item">
+            <div class="file-icon">
+              <svg viewBox="0 0 24 24" width="24" height="24" fill="#f44336">
+                <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+              </svg>
+            </div>
+            <div class="file-info">
+              <div class="file-name">${file.original_name}</div>
+              <div class="file-size">${formatFileSize(file.size_bytes)} • PDF</div>
+            </div>
+            <button onclick="downloadFile(${file.id}, '${file.original_name.replace(/'/g, "\\'")}')" class="btn btn-sm btn-blue">
+              Download
+            </button>
+          </div>
+        `).join('');
+      }
+    }
+
+    function renderLinks(links) {
+      const container = document.getElementById('links-list');
+      container.innerHTML = links.map(link => `
+        <div class="file-item">
+          <div class="file-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="#4dd0e1">
+              <path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/>
+              <path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/>
+            </svg>
+          </div>
+          <div class="file-info">
+            <div class="file-name">${link.title || link.url}</div>
+            <div class="file-size">${link.link_type} ${link.description ? '• ' + link.description : ''}</div>
+          </div>
+          <button onclick="window.open('${link.url}', '_blank')" class="btn btn-sm btn-blue">
+            Abrir
+          </button>
+        </div>
+      `).join('');
+    }
+
+    async function loadVersions() {
+      try {
+        const versions = await api.get(`/projects/${currentProjectId}/versions`);
+        renderVersions(versions);
+      } catch (error) {
+        console.error('Erro ao carregar versões:', error);
+      }
+    }
+
+    function renderVersions(versions) {
+      const container = document.getElementById('versions-list');
+      
+      if (versions.length === 0) {
+        container.innerHTML = '<p style="color:#888;">Nenhuma versão registrada</p>';
+        return;
+      }
+
+      container.innerHTML = versions.map(version => `
+        <div class="version-item">
+          <div class="version-header">
+            <div>
+              <span class="version-number">Versão #${version.version_number}</span>
+              <span style="color:#888;margin-left:12px;">${version.change_type}</span>
+            </div>
+            <div class="version-date">${fmtDate(version.created_at)}</div>
+          </div>
+          <div style="color:#ccc;font-size:14px;margin-bottom:4px;">${version.description}</div>
+          <div style="color:#888;font-size:12px;">Por: ${version.author_name || 'Sistema'}</div>
+        </div>
+      `).join('');
+    }
+
+    async function loadComments() {
+      try {
+        const comments = await api.get(`/projects/${currentProjectId}/comments`);
+        renderComments(comments);
+      } catch (error) {
+        console.error('Erro ao carregar comentários:', error);
+      }
+    }
+
+    function renderComments(comments) {
+      const container = document.getElementById('comments-list');
+      
+      if (comments.length === 0) {
+        container.innerHTML = '<p style="color:#888;">Nenhum comentário</p>';
+        return;
+      }
+
+      container.innerHTML = comments.map(comment => `
+        <div class="version-item" style="border-left-color:${comment.is_admin_comment ? '#f44336' : '#4dd0e1'};">
+          <div class="version-header">
+            <div>
+              <span style="font-weight:600;color:#fff;">${comment.author_name}</span>
+              ${comment.is_admin_comment ? '<span class="badge badge-red" style="margin-left:8px;">Admin</span>' : ''}
+            </div>
+            <div class="version-date">${fmtDate(comment.created_at)}</div>
+          </div>
+          <div style="color:#ccc;font-size:14px;margin-top:8px;">${comment.content}</div>
+        </div>
+      `).join('');
+    }
+
+    function formatStatus(status) {
+      const statusMap = {
+        'rascunho': 'Rascunho',
+        'pendente': 'Pendente',
+        'em_submissao': 'Em Submissão',
+        'em_revisao': 'Em Revisão',
+        'aprovado': 'Aprovado',
+        'rejeitado': 'Rejeitado'
+      };
+      return statusMap[status] || status;
+    }
+
+    // Carregar ao iniciar
+    document.addEventListener('DOMContentLoaded', () => {
+      if (!Session.requireAuth()) return;
+      loadProjectDetails();
+    });
+  </script>
+</body>
+</html>

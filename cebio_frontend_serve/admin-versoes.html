@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Histórico de Versões - CEBIO Brasil</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="top-header">
+    <div class="top-header-left">
+      <div class="logo-if"><span class="r"></span><span class="g"></span><span class="g"></span><span class="g"></span><span class="g"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span></div>
+      <span class="logo-x">x</span>
+      <svg viewBox="0 0 40 40" width="28" height="28"><polygon points="20,2 35,10 35,26 20,34 5,26 5,10" fill="none" stroke="#4dd0e1" stroke-width="1.8"/><circle cx="20" cy="14" r="2.5" fill="#4dd0e1"/><circle cx="14" cy="22" r="2.5" fill="#4dd0e1"/><circle cx="26" cy="22" r="2.5" fill="#4dd0e1"/><line x1="20" y1="14" x2="14" y2="22" stroke="#4dd0e1" stroke-width="1.2"/><line x1="20" y1="14" x2="26" y2="22" stroke="#4dd0e1" stroke-width="1.2"/><line x1="14" y1="22" x2="26" y2="22" stroke="#4dd0e1" stroke-width="1.2"/></svg>
+      <div class="brand-text"><h1>CEBIO Brasil</h1><p>Centro de Excelência em Bioinsumos</p></div>
+    </div>
+    <div class="top-header-center"><div class="search-box"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="rgba(255,255,255,0.7)" stroke-width="2" fill="none"/></svg><input type="text" placeholder="Buscar projetos..."></div></div>
+    <div class="top-header-right"><span class="user-name" id="header-user-name">Carregando...</span><span class="user-badge-type badge-admin">Admin</span></div>
+  </header>
+
+  <!-- SUB-HEADER -->
+  <div class="sub-header">
+    <div class="sub-header-left">
+      <span class="page-name">Painel do Administrador</span>
+      <nav class="nav-tabs">
+        <a href="admin-dashboard.html" class="nav-tab">Dashboard</a>
+        <a href="admin-projetos.html" class="nav-tab">Projetos</a>
+        <a href="admin-usuarios.html" class="nav-tab">Usuários</a>
+        <a href="admin-acoes.html" class="nav-tab">Ações Admin</a>
+        <a href="admin-relatorios.html" class="nav-tab">Relatórios</a>
+        <a href="admin-auditoria.html" class="nav-tab">Auditoria</a>
+      </nav>
+    </div>
+    <div class="sub-header-right">
+      <div class="notif-bell"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 006 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 01-3.46 0"/></svg></div>
+      <div class="logout-btn" data-href="login.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <div class="main-container">
+    <!-- BANNER -->
+    <div class="green-banner">
+      <h2>Sistema de Controle de Versões - CEBIO</h2>
+      <p class="banner-sub">Rastreabilidade completa e auditoria de projetos do Centro de Excelência em Bioinsumos</p>
+      <div class="banner-badges">
+        <span class="banner-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/></svg> Histórico Completo</span>
+        <span class="banner-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/></svg> Visualização Completa</span>
+        <span class="banner-badge"><svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg> Soft Delete Protection</span>
+      </div>
+    </div>
+
+    <!-- FILTROS -->
+    <div class="filters-card">
+      <h3 style="font-size:16px;font-weight:600;margin-bottom:16px;">Filtros de Busca</h3>
+      <div class="filters-row">
+        <div class="filter-group">
+          <label>Projeto</label>
+          <select><option>Todos os projetos</option></select>
+        </div>
+        <div class="filter-group">
+          <label>Tipo de Alteração</label>
+          <select><option>Todos os tipos</option></select>
+        </div>
+        <div class="filter-group">
+          <label>Data</label>
+          <input type="date">
+        </div>
+        <button class="btn-filter">Limpar Filtros</button>
+      </div>
+    </div>
+
+    <!-- HISTÓRICO DE ALTERAÇÕES -->
+    <div class="card" id="versions-container"><div id="versions-list"><p style="text-align:center;padding:32px;color:#9e9e9e;">Carregando versões...</p></div>
+      <div class="card-head"><h3>Histórico de Alterações</h3></div>
+
+      <!-- Versão 3 -->
+      <div class="version-entry">
+        <div class="version-head">
+          <span class="badge badge-green">Conteúdo</span>
+          <span class="badge badge-green">Atual</span>
+          <span style="font-size:13px;font-weight:600;">Versão 3</span>
+        </div>
+        <div class="version-desc">Atualização do resumo do projeto com novos dados de campo coletados durante a expedição de janeiro.</div>
+        <div class="version-meta">
+          <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> <span class="dyn-user">0</span></span>
+          <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> <span class="dyn-date">0</span>, 14:30</span>
+        </div>
+        <div class="version-changes">
+          <h5>Alterações realizadas:</h5>
+          <ul>
+            <li>Resumo atualizado com novos dados de campo</li>
+            <li>Adicionadas 3 novas referências bibliográficas</li>
+            <li>Corrigidos erros de formatação no texto</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Versão 2 -->
+      <div class="version-entry">
+        <div class="version-head">
+          <span class="badge badge-blue">Arquivos</span>
+          <span style="font-size:13px;font-weight:600;">Versão 2</span>
+        </div>
+        <div class="version-desc">Upload de 3 novas fotos de campo e atualização do relatório parcial de atividades.</div>
+        <div class="version-meta">
+          <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> Carlos Oliveira</span>
+          <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> <span class="dyn-date">0</span>, 09:15</span>
+        </div>
+      </div>
+
+      <!-- Versão 1 -->
+      <div class="version-entry">
+        <div class="version-head">
+          <span class="badge badge-green">Criação</span>
+          <span style="font-size:13px;font-weight:600;">Versão 1</span>
+        </div>
+        <div class="version-desc">Criação inicial do projeto com todas as informações básicas e documentação necessária.</div>
+        <div class="version-meta">
+          <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="8.5" cy="7" r="4"/></svg> <span class="dyn-user">0</span></span>
+          <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg> <span class="dyn-date">0</span>, 10:00</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="utils/sanitize.js"></script>
+  <script src="utils/xss-fixes.js"></script>
+  <script src="api.js"></script>
+  <script src="components/toast.js"></script>
+  <script src="components/loading.js"></script>
+  <script src="components/password-modal.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

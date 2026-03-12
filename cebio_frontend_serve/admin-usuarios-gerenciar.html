@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gerenciar Usuários - CEBIO Brasil</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="dashboard-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>CEBIO Brasil</h2>
+                <p class="user-role">Administrador</p>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="admin-dashboard.html">📊 Dashboard</a>
+                <a href="admin-usuarios.html">👥 Usuários</a>
+                <a href="admin-usuarios-gerenciar.html" class="active">🔧 Gerenciar Usuários</a>
+                <a href="admin-projetos.html">📁 Projetos</a>
+                <a href="admin-notificacoes.html">🔔 Notificações</a>
+                <a href="admin-auditoria.html">📋 Auditoria</a>
+                <a href="admin-relatorios.html">📈 Relatórios</a>
+                <a href="admin-acoes.html">⚙️ Configurações</a>
+                <a href="#" onclick="Auth.logout()" style="margin-top:auto">🚪 Sair</a>
+            </nav>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="content-header">
+                <div>
+                    <h1>Gerenciar Usuários</h1>
+                    <p>Gerencie todos os usuários da plataforma</p>
+                </div>
+                <div class="header-actions">
+                    <span class="user-name" id="header-user-name"></span>
+                </div>
+            </header>
+
+            <!-- Filtros e Busca -->
+            <div class="card" style="margin-bottom: 24px;">
+                <div style="display: flex; gap: 16px; flex-wrap: wrap; align-items: center;">
+                    <div class="search-box" style="flex: 1; min-width: 300px;">
+                        <input type="text" id="search-input" placeholder="Buscar por nome ou email..." 
+                               style="width: 100%; padding: 10px; border: 1px solid #333; background: #0a0a0a; color: #fff; border-radius: 4px;">
+                    </div>
+                    <div class="filter-group">
+                        <select id="filter-status" style="padding: 10px; border: 1px solid #333; background: #0a0a0a; color: #fff; border-radius: 4px;">
+                            <option value="">Todos os status</option>
+                            <option value="true">Ativos</option>
+                            <option value="false">Inativos</option>
+                        </select>
+                    </div>
+                    <div class="filter-group">
+                        <select id="filter-role" style="padding: 10px; border: 1px solid #333; background: #0a0a0a; color: #fff; border-radius: 4px;">
+                            <option value="">Todos os perfis</option>
+                            <option value="admin">Administrador</option>
+                            <option value="pesquisador">Pesquisador</option>
+                            <option value="bolsista">Bolsista</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tabela de Usuários -->
+            <div class="card">
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Usuário</th>
+                                <th>Perfil</th>
+                                <th>Status</th>
+                                <th>Criado em</th>
+                                <th>Projetos</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body">
+                            <tr>
+                                <td colspan="7" style="text-align: center; padding: 40px;">
+                                    Carregando usuários...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Paginação -->
+                <div id="pagination" style="margin-top: 20px; display: flex; justify-content: center; gap: 8px;">
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="utils/sanitize.js"></script>
+    <script src="utils/xss-fixes.js"></script>
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+    <script src="components/toast.js"></script>
+    <script src="components/loading.js"></script>
+    <script src="components/password-modal.js"></script>
+    
+    <script>
+        let currentPage = 1;
+        const perPage = 20;
+
+        async function loadUsers() {
+            const search = document.getElementById('search-input').value;
+            const status = document.getElementById('filter-status').value;
+            const role = document.getElementById('filter-role').value;
+
+            showLoading();
+            try {
+                const params = { page: currentPage, per_page: perPage };
+                if (search) params.search = search;
+                if (status) params.is_active = status;
+                if (role) params.role = role;
+
+                const data = await api.get('/users?' + new URLSearchParams(params));
+                renderUsers(data.items || []);
+                renderPagination(data.pages || 1, data.page || 1);
+            } catch (error) {
+                showError('Erro ao carregar usuários: ' + error.message);
+                document.getElementById('users-table-body').innerHTML = 
+                    '<tr><td colspan="7" style="text-align:center;padding:40px;color:#f44336;">Erro ao carregar usuários</td></tr>';
+            } finally {
+                hideLoading();
+            }
+        }
+
+        function renderUsers(users) {
+            const tbody = document.getElementById('users-table-body');
+            
+            if (users.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="7" style="text-align:center;padding:40px;color:#888;">Nenhum usuário encontrado</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = users.map(user => `
+                <tr>
+                    <td>${user.id}</td>
+                    <td>
+                        <div style="font-weight: 600;">${user.name || '0'}</div>
+                        <div style="font-size: 12px; color: #888;">${user.email || '0'}</div>
+                    </td>
+                    <td>${badgeRole(user.role)}</td>
+                    <td>
+                        ${badgeStatus(user.is_active ? 'ativo' : 'inativo')}
+                        ${user.is_temp_password ? '<br><span class="badge badge-yellow" style="margin-top:4px;">⚠ Senha Temp.</span>' : ''}
+                    </td>
+                    <td>${fmtDateOnly(user.created_at)}</td>
+                    <td style="text-align: center;">
+                        <span style="background: #2a2a2a; padding: 4px 12px; border-radius: 12px; font-size: 12px;">
+                            ${user.project_count || 0}
+                        </span>
+                    </td>
+                    <td>
+                        <button onclick="openUserDetails(${user.id})" class="btn-sm btn-blue">
+                            Abrir
+                        </button>
+                    </td>
+                </tr>
+            `).join('');
+        }
+
+        function renderPagination(totalPages, currentPageNum) {
+            const pagination = document.getElementById('pagination');
+            if (totalPages <= 1) {
+                pagination.innerHTML = '';
+                return;
+            }
+
+            let html = '';
+            
+            // Botão anterior
+            if (currentPageNum > 1) {
+                html += `<button onclick="changePage(${currentPageNum - 1})" class="btn-sm btn-dark">← Anterior</button>`;
+            }
+
+            // Páginas
+            for (let i = 1; i <= totalPages; i++) {
+                if (i === currentPageNum) {
+                    html += `<button class="btn-sm btn-blue" disabled>${i}</button>`;
+                } else if (i === 1 || i === totalPages || (i >= currentPageNum - 2 && i <= currentPageNum + 2)) {
+                    html += `<button onclick="changePage(${i})" class="btn-sm btn-dark">${i}</button>`;
+                } else if (i === currentPageNum - 3 || i === currentPageNum + 3) {
+                    html += `<span style="padding: 0 8px; color: #888;">...</span>`;
+                }
+            }
+
+            // Botão próximo
+            if (currentPageNum < totalPages) {
+                html += `<button onclick="changePage(${currentPageNum + 1})" class="btn-sm btn-dark">Próximo →</button>`;
+            }
+
+            pagination.innerHTML = html;
+        }
+
+        function changePage(page) {
+            currentPage = page;
+            loadUsers();
+        }
+
+        function openUserDetails(userId) {
+            window.location.href = `admin-usuario-detalhes.html?id=${userId}`;
+        }
+
+        // Event listeners
+        document.getElementById('search-input').addEventListener('input', debounce(() => {
+            currentPage = 1;
+            loadUsers();
+        }, 500));
+
+        document.getElementById('filter-status').addEventListener('change', () => {
+            currentPage = 1;
+            loadUsers();
+        });
+
+        document.getElementById('filter-role').addEventListener('change', () => {
+            currentPage = 1;
+            loadUsers();
+        });
+
+        function debounce(func, wait) {
+            let timeout;
+            return function executedFunction(...args) {
+                const later = () => {
+                    clearTimeout(timeout);
+                    func(...args);
+                };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        // Carregar ao iniciar
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!Session.requireAuth('admin')) return;
+            loadUsers();
+        });
+    </script>
+</body>
+</html>

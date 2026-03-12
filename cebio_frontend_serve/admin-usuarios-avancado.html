@@ -1,0 +1,646 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Gerenciar Usuários - CEBIO Brasil</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .filters-section {
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 24px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .filter-group {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .filter-group label {
+      font-weight: 600;
+      color: #333;
+      font-size: 13px;
+    }
+    .filter-group input,
+    .filter-group select {
+      padding: 10px 12px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+    }
+    .users-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    .users-table thead {
+      background: #f5f5f5;
+      border-bottom: 2px solid #ddd;
+    }
+    .users-table th {
+      padding: 16px;
+      text-align: left;
+      font-weight: 600;
+      color: #333;
+      font-size: 13px;
+    }
+    .users-table td {
+      padding: 16px;
+      border-bottom: 1px solid #eee;
+      font-size: 13px;
+    }
+    .users-table tbody tr:hover {
+      background: #f9f9f9;
+    }
+    .user-name {
+      font-weight: 600;
+      color: #1b7a3a;
+    }
+    .user-email {
+      color: #666;
+      font-size: 12px;
+    }
+    .role-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .role-admin {
+      background: #ffebee;
+      color: #c62828;
+    }
+    .role-pesquisador {
+      background: #e3f2fd;
+      color: #1565c0;
+    }
+    .role-bolsista {
+      background: #f3e5f5;
+      color: #6a1b9a;
+    }
+    .status-badge {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: 600;
+    }
+    .status-active {
+      background: #e8f5e9;
+      color: #2e7d32;
+    }
+    .status-inactive {
+      background: #ffebee;
+      color: #c62828;
+    }
+    .actions-cell {
+      display: flex;
+      gap: 8px;
+    }
+    .btn-action {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 11px;
+      font-weight: 600;
+      transition: all 0.2s;
+    }
+    .btn-view {
+      background: #2196f3;
+      color: white;
+    }
+    .btn-view:hover {
+      background: #1976d2;
+    }
+    .btn-edit {
+      background: #ff9800;
+      color: white;
+    }
+    .btn-edit:hover {
+      background: #f57c00;
+    }
+    .btn-reset {
+      background: #f44336;
+      color: white;
+    }
+    .btn-reset:hover {
+      background: #da190b;
+    }
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.active {
+      display: flex;
+    }
+    .modal-content {
+      background: #fff;
+      border-radius: 8px;
+      padding: 32px;
+      max-width: 600px;
+      width: 90%;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .modal-header {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1b7a3a;
+      margin-bottom: 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .modal-close {
+      background: none;
+      border: none;
+      font-size: 24px;
+      cursor: pointer;
+      color: #999;
+    }
+    .form-group {
+      margin-bottom: 20px;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      padding: 12px 16px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 13px;
+      font-family: inherit;
+      outline: none;
+    }
+    .form-group input:focus,
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: #1b7a3a;
+      box-shadow: 0 0 0 3px rgba(27, 122, 58, 0.1);
+    }
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    .user-info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      background: #f9f9f9;
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 20px;
+    }
+    .user-info-item {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .user-info-label {
+      font-size: 11px;
+      font-weight: 600;
+      color: #999;
+      text-transform: uppercase;
+    }
+    .user-info-value {
+      font-size: 14px;
+      color: #333;
+      word-break: break-all;
+    }
+    .modal-footer {
+      display: flex;
+      gap: 12px;
+      margin-top: 24px;
+      justify-content: flex-end;
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 24px;
+    }
+    .pagination button {
+      padding: 8px 12px;
+      border: 1px solid #ddd;
+      background: #fff;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 12px;
+    }
+    .pagination button.active {
+      background: #1b7a3a;
+      color: white;
+      border-color: #1b7a3a;
+    }
+    .temp-password-alert {
+      background: #fff3cd;
+      border: 1px solid #ffc107;
+      border-radius: 6px;
+      padding: 12px;
+      margin-bottom: 16px;
+      color: #856404;
+      font-size: 12px;
+    }
+  </style>
+</head>
+<body>
+  <!-- HEADER -->
+  <header class="top-header">
+    <div class="top-header-left">
+      <div class="logo-if"><span class="r"></span><span class="g"></span><span class="g"></span><span class="g"></span><span class="g"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span><span class="dg"></span></div>
+      <span class="logo-x">x</span>
+      <svg viewBox="0 0 40 40" width="28" height="28"><polygon points="20,2 35,10 35,26 20,34 5,26 5,10" fill="none" stroke="#00897b" stroke-width="1.8"/><circle cx="20" cy="14" r="2.5" fill="#00897b"/><circle cx="14" cy="22" r="2.5" fill="#00897b"/><circle cx="26" cy="22" r="2.5" fill="#00897b"/><line x1="20" y1="14" x2="14" y2="22" stroke="#00897b" stroke-width="1.2"/><line x1="20" y1="14" x2="26" y2="22" stroke="#00897b" stroke-width="1.2"/><line x1="14" y1="22" x2="26" y2="22" stroke="#00897b" stroke-width="1.2"/></svg>
+      <div class="brand-text"><h1>CEBIO Brasil</h1><p>Centro de Excelência em Bioinsumos</p></div>
+    </div>
+    <div class="top-header-center"><div class="search-box"><svg viewBox="0 0 24 24" width="16" height="16"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke="rgba(255,255,255,0.7)" stroke-width="2" fill="none"/></svg><input type="text" id="globalSearch" placeholder="Buscar usuários..."></div></div>
+    <div class="top-header-right"><span class="user-name" id="header-user-name">Carregando...</span><span class="user-badge-type badge-admin">Admin</span></div>
+  </header>
+
+  <!-- SUB-HEADER -->
+  <div class="sub-header">
+    <div class="sub-header-left">
+      <nav class="nav-tabs">
+        <a href="admin-dashboard.html" class="nav-tab">Dashboard</a>
+        <a href="admin-projetos.html" class="nav-tab">Projetos</a>
+        <a href="admin-usuarios-avancado.html" class="nav-tab active">Usuários</a>
+        <a href="admin-categorias.html" class="nav-tab">Categorias</a>
+        <a href="admin-acoes.html" class="nav-tab">Ações Admin</a>
+      </nav>
+    </div>
+    <div class="sub-header-right">
+      <div class="logout-btn" data-href="login.html"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></div>
+    </div>
+  </div>
+
+  <!-- CONTEÚDO -->
+  <div class="main-container">
+    <h2 style="color: #1b7a3a; margin-bottom: 24px;">Gerenciar Usuários</h2>
+
+    <!-- FILTROS -->
+    <div class="filters-section">
+      <div class="filter-group">
+        <label>Buscar por Nome/Email</label>
+        <input type="text" id="searchFilter" placeholder="Digite para filtrar...">
+      </div>
+      <div class="filter-group">
+        <label>Perfil</label>
+        <select id="roleFilter">
+          <option value="">Todos</option>
+          <option value="admin">Admin</option>
+          <option value="pesquisador">Pesquisador</option>
+          <option value="bolsista">Bolsista</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Status</label>
+        <select id="statusFilter">
+          <option value="">Todos</option>
+          <option value="true">Ativos</option>
+          <option value="false">Inativos</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>&nbsp;</label>
+        <button class="btn btn-green" onclick="applyFilters()">Filtrar</button>
+      </div>
+    </div>
+
+    <!-- TABELA DE USUÁRIOS -->
+    <div style="overflow-x: auto;">
+      <table class="users-table">
+        <thead>
+          <tr>
+            <th>Usuário</th>
+            <th>Email</th>
+            <th>Perfil</th>
+            <th>Status</th>
+            <th>Último Acesso</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody id="usersList">
+          <tr><td colspan="6" style="text-align: center; color: #999;">Carregando usuários...</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PAGINAÇÃO -->
+    <div class="pagination" id="pagination"></div>
+  </div>
+
+  <!-- MODAL: VISUALIZAR/EDITAR USUÁRIO -->
+  <div id="userModal" class="modal-overlay">
+    <div class="modal-content">
+      <div class="modal-header">
+        <span id="modalTitle">Detalhes do Usuário</span>
+        <button class="modal-close" onclick="closeUserModal()">×</button>
+      </div>
+
+      <div id="tempPasswordAlert" class="temp-password-alert" style="display: none;">
+        ⚠️ Este usuário possui uma senha temporária e deve trocar na próxima autenticação.
+      </div>
+
+      <div id="userInfoGrid" class="user-info-grid"></div>
+
+      <form id="userEditForm">
+        <input type="hidden" name="userId">
+        
+        <div class="form-row">
+          <div class="form-group">
+            <label>Nome Completo</label>
+            <input type="text" name="name" required>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" name="email" required>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>CPF</label>
+            <input type="text" name="cpf" placeholder="000.000.000-00">
+          </div>
+          <div class="form-group">
+            <label>Telefone</label>
+            <input type="tel" name="phone" placeholder="(00) 00000-0000">
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label>Instituição</label>
+          <input type="text" name="institution">
+        </div>
+
+        <div class="form-row">
+          <div class="form-group">
+            <label>Perfil</label>
+            <select name="role" required>
+              <option value="admin">Admin</option>
+              <option value="pesquisador">Pesquisador</option>
+              <option value="bolsista">Bolsista</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Status</label>
+            <select name="is_active" required>
+              <option value="true">Ativo</option>
+              <option value="false">Inativo</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="btn btn-dark" onclick="closeUserModal()">Cancelar</button>
+          <button type="button" class="btn btn-red" onclick="resetUserPassword()" style="margin-right: auto;">Resetar Senha</button>
+          <button type="submit" class="btn btn-green">Salvar Alterações</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script src="utils/sanitize.js"></script>
+  <script src="utils/xss-fixes.js"></script>
+  <script src="api.js"></script>
+  <script src="components/toast.js"></script>
+  <script src="components/loading.js"></script>
+  <script src="components/password-modal.js"></script>
+  <script src="script.js"></script>
+  <script>
+    let allUsers = [];
+    let filteredUsers = [];
+    let currentPage = 1;
+    const itemsPerPage = 10;
+    let currentEditingUserId = null;
+
+    async function initPage() {
+      if (!Session.requireAuth('admin')) return;
+      
+      try {
+        const user = Session.user;
+        document.getElementById('header-user-name').textContent = user.name || 'Admin';
+        await loadUsers();
+      } catch (error) {
+        showError('Erro ao carregar página: ' + error.message);
+      }
+    }
+
+    async function loadUsers() {
+      showLoading();
+      try {
+        const response = await Users.list({ per_page: 100 });
+        allUsers = response.items || [];
+        filteredUsers = [...allUsers];
+        currentPage = 1;
+        renderUsers();
+      } catch (error) {
+        showError('Erro ao carregar usuários: ' + error.message);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    function applyFilters() {
+      const search = document.getElementById('searchFilter').value.toLowerCase();
+      const role = document.getElementById('roleFilter').value;
+      const status = document.getElementById('statusFilter').value;
+
+      filteredUsers = allUsers.filter(user => {
+        const matchSearch = !search || user.name.toLowerCase().includes(search) || user.email.toLowerCase().includes(search);
+        const matchRole = !role || user.role === role;
+        const matchStatus = !status || (status === 'true' ? user.is_active : !user.is_active);
+        return matchSearch && matchRole && matchStatus;
+      });
+
+      currentPage = 1;
+      renderUsers();
+    }
+
+    function renderUsers() {
+      const start = (currentPage - 1) * itemsPerPage;
+      const end = start + itemsPerPage;
+      const pageUsers = filteredUsers.slice(start, end);
+
+      const tbody = document.getElementById('usersList');
+      if (pageUsers.length === 0) {
+        tbody.innerHTML = '<tr><td colspan="6" style="text-align: center; color: #999;">Nenhum usuário encontrado.</td></tr>';
+        renderPagination();
+        return;
+      }
+
+      tbody.innerHTML = pageUsers.map(user => `
+        <tr>
+          <td>
+            <div class="user-name">${user.name}</div>
+            <div class="user-email">${user.email}</div>
+          </td>
+          <td>${user.email}</td>
+          <td><span class="role-badge role-${user.role}">${user.role}</span></td>
+          <td><span class="status-badge ${user.is_active ? 'status-active' : 'status-inactive'}">
+            ${user.is_active ? '✓ Ativo' : '✗ Inativo'}
+          </span></td>
+          <td>${user.last_login ? fmtDate(user.last_login) : 'Nenhum acesso'}</td>
+          <td>
+            <div class="actions-cell">
+              <button class="btn-action btn-view" onclick="viewUser(${user.id})">Visualizar</button>
+              <button class="btn-action btn-edit" onclick="editUser(${user.id})">Editar</button>
+            </div>
+          </td>
+        </tr>
+      `).join('');
+
+      renderPagination();
+    }
+
+    function renderPagination() {
+      const totalPages = Math.ceil(filteredUsers.length / itemsPerPage);
+      const pagination = document.getElementById('pagination');
+
+      if (totalPages <= 1) {
+        pagination.innerHTML = '';
+        return;
+      }
+
+      let html = '';
+      if (currentPage > 1) {
+        html += `<button onclick="currentPage--; renderUsers()">← Anterior</button>`;
+      }
+
+      for (let i = 1; i <= totalPages; i++) {
+        html += `<button class="${i === currentPage ? 'active' : ''}" onclick="currentPage=${i}; renderUsers()">${i}</button>`;
+      }
+
+      if (currentPage < totalPages) {
+        html += `<button onclick="currentPage++; renderUsers()">Próxima →</button>`;
+      }
+
+      pagination.innerHTML = html;
+    }
+
+    function viewUser(userId) {
+      const user = allUsers.find(u => u.id === userId);
+      if (!user) return;
+
+      currentEditingUserId = userId;
+      document.getElementById('modalTitle').textContent = 'Detalhes do Usuário';
+
+      // Mostrar alerta de senha temporária
+      document.getElementById('tempPasswordAlert').style.display = user.is_temp_password ? 'block' : 'none';
+
+      // Preencher grid de informações
+      const infoGrid = document.getElementById('userInfoGrid');
+      infoGrid.innerHTML = `
+        <div class="user-info-item">
+          <span class="user-info-label">ID</span>
+          <span class="user-info-value">${user.id}</span>
+        </div>
+        <div class="user-info-item">
+          <span class="user-info-label">Perfil</span>
+          <span class="user-info-value"><span class="role-badge role-${user.role}">${user.role}</span></span>
+        </div>
+        <div class="user-info-item">
+          <span class="user-info-label">Criado em</span>
+          <span class="user-info-value">${fmtDate(user.created_at)}</span>
+        </div>
+        <div class="user-info-item">
+          <span class="user-info-label">Último Acesso</span>
+          <span class="user-info-value">${user.last_login ? fmtDate(user.last_login) : 'Nunca'}</span>
+        </div>
+      `;
+
+      // Preencher formulário
+      const form = document.getElementById('userEditForm');
+      form.userId.value = userId;
+      form.name.value = user.name;
+      form.email.value = user.email;
+      form.cpf.value = user.cpf || '';
+      form.phone.value = user.phone || '';
+      form.institution.value = user.institution || '';
+      form.role.value = user.role;
+      form.is_active.value = user.is_active ? 'true' : 'false';
+
+      document.getElementById('userModal').classList.add('active');
+    }
+
+    function editUser(userId) {
+      viewUser(userId);
+    }
+
+    function closeUserModal() {
+      document.getElementById('userModal').classList.remove('active');
+      currentEditingUserId = null;
+    }
+
+    async function resetUserPassword() {
+      if (!currentEditingUserId) return;
+      if (!confirm('Tem certeza que deseja resetar a senha deste usuário?')) return;
+
+      showLoading();
+      try {
+        await Users.resetPassword(currentEditingUserId);
+        showSuccess('Senha resetada com sucesso! Uma nova senha temporária foi gerada.');
+        await loadUsers();
+        closeUserModal();
+      } catch (error) {
+        showError('Erro ao resetar senha: ' + error.message);
+      } finally {
+        hideLoading();
+      }
+    }
+
+    document.getElementById('userEditForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const userId = document.querySelector('input[name="userId"]').value;
+      const formData = new FormData(e.target);
+      const data = Object.fromEntries(formData);
+      delete data.userId;
+      data.is_active = data.is_active === 'true';
+
+      showLoading();
+      try {
+        await Users.update(userId, data);
+        showSuccess('Usuário atualizado com sucesso!');
+        await loadUsers();
+        closeUserModal();
+      } catch (error) {
+        showError('Erro ao atualizar usuário: ' + error.message);
+      } finally {
+        hideLoading();
+      }
+    });
+
+    // Busca em tempo real
+    document.getElementById('globalSearch').addEventListener('input', applyFilters);
+    document.getElementById('searchFilter').addEventListener('input', applyFilters);
+
+    document.addEventListener('DOMContentLoaded', initPage);
+  </script>
+</body>
+</html>

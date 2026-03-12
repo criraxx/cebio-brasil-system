@@ -1,0 +1,25 @@
+fastapi==0.115.5
+uvicorn[standard]==0.32.1
+sqlalchemy==2.0.36
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+bcrypt==4.0.1  # IMPORTANTE: bcrypt>=4.1 é incompatível com passlib 1.7.4
+python-multipart==0.0.12
+pydantic[email]==2.10.3
+pydantic-settings==2.6.1
+reportlab==4.0.7  # Geração de relatórios PDF
+
+# Segurança - Validação avançada de arquivos
+python-magic==0.4.27  # Detecção de MIME type real
+Pillow==10.4.0  # Validação de imagens
+
+# Para MySQL em produção (descomente):
+# pymysql==1.1.1
+# cryptography==43.0.3
+
+# Para SQLite (padrão para testes - já incluído no Python)
+aiosqlite==0.20.0
+
+# Extras
+python-dotenv==1.0.1
+httpx==0.28.1
