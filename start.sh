@@ -22,4 +22,6 @@ echo "FastAPI iniciado com sucesso (PID: $FASTAPI_PID)"
 # Iniciar o servidor frontend
 echo "Iniciando servidor frontend..."
 cd /app/cebio_frontend_serve
-exec python serve.py
+echo "Diretório atual: $(pwd)"
+echo "Arquivos: $(ls -la)"
+exec python3 serve.py
