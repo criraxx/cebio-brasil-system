@@ -39,7 +39,7 @@ _failed_attempts: dict[str, list[float]] = defaultdict(list)
 
 MAX_FAILED_ATTEMPTS = 5        # tentativas falhas antes do bloqueio
 ATTEMPT_WINDOW_SECONDS = 300   # janela de 5 minutos para contar tentativas
-LOCKOUT_SECONDS = 900          # bloqueio de 15 minutos após exceder
+LOCKOUT_SECONDS = 120          # bloqueio de 2 minutos após exceder
 
 
 def check_user_rate_limit(email: str) -> None:
