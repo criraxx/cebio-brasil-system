@@ -3,11 +3,13 @@ CEBIO Brasil - Aplicação FastAPI Principal
 Registra todos os roteadores e configura middlewares.
 """
 import os
+import asyncio
 from fastapi import FastAPI, Request
 from fastapi.responses import JSONResponse
 from fastapi.staticfiles import StaticFiles
 from starlette.middleware.base import BaseHTTPMiddleware
 from contextlib import asynccontextmanager
+import httpx
 from .config import (
     APP_TITLE, APP_DESCRIPTION, APP_VERSION,
     CORS_ORIGINS, UPLOAD_DIR,
@@ -15,9 +17,28 @@ from .config import (
 from .database import engine, Base
 
 
+async def start_keep_alive():
+    """Inicia um background task que faz ping no site a cada 5 minutos."""
+    async def keep_alive_task():
+        await asyncio.sleep(10)  # Aguarda 10 segundos antes de começar
+        while True:
+            try:
+                async with httpx.AsyncClient() as client:
+                    response = await client.get("https://cebio-brasil.onrender.com", timeout=10)
+                    print(f"[Keep-Alive] Ping bem-sucedido: {response.status_code}")
+            except Exception as e:
+                print(f"[Keep-Alive] Erro no ping: {e}")
+            
+            # Aguarda 5 minutos antes do próximo ping
+            await asyncio.sleep(300)
+    
+    # Inicia a tarefa em background
+    asyncio.create_task(keep_alive_task())
+
+
 @asynccontextmanager
 async def lifespan(app: FastAPI):
-    """Cria as tabelas no banco ao iniciar a aplicação."""
+    """Cria as tabelas no banco ao iniciar a aplicação e inicia keep-alive."""
     # Importa todos os modelos para garantir que sejam registrados no Base
     from .models import User, Project, ProjectVersion, ProjectComment
     from .models import ProjectAuthor, ProjectLink, ProjectFile
@@ -26,6 +47,10 @@ async def lifespan(app: FastAPI):
 
     Base.metadata.create_all(bind=engine)
     print("✅ Tabelas criadas/verificadas com sucesso.")
+    
+    # Inicia o keep-alive para manter o site acordado
+    await start_keep_alive()
+    print("✅ Keep-alive iniciado - site será mantido acordado a cada 5 minutos.")
 
     # Cria o usuário admin padrão se não existir
     from .database import SessionLocal
@@ -82,7 +107,8 @@ async def lifespan(app: FastAPI):
         db.close()
 
     yield
-    print("🔴 Aplicação encerrada.")
+    
+    # Cleanup (opcional)
 
 
 # ─── Instância da aplicação ───────────────────────────────────────────────────
